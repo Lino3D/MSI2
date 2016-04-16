@@ -34,7 +34,7 @@ namespace Klasyfikacja_Danych
             if (t.Count() == 0)
                 Directory.CreateDirectory(startupPath);
 
-            var TextBoxCollection = FindVisualChildren<TextBox>(MainTabControl);
+            var TextBoxCollection = FindLogicalChildren<TextBox>(MainTabControl);
 
             foreach( var item in TextBoxCollection)
             {
@@ -43,7 +43,7 @@ namespace Klasyfikacja_Danych
 
         }
 
-        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject depObj) where T : DependencyObject
         {
             if (depObj != null)
             {
@@ -56,7 +56,7 @@ namespace Klasyfikacja_Danych
                         yield return (T)child;
                     }
 
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    foreach (T childOfChild in FindLogicalChildren<T>(child))
                     {
                         yield return childOfChild;
                     }
@@ -77,7 +77,7 @@ namespace Klasyfikacja_Danych
                 var files = Directory.GetFiles(startupPath);
                 if (files.Count() != 0)
                 {
-                    var TextBoxColletion = FindVisualChildren<TextBox>(MainTabControl);
+                    var TextBoxColletion = FindLogicalChildren<TextBox>(MainTabControl);
                     foreach (var item in files)
                     {
                         foreach (var TextBoxItem in TextBoxColletion)

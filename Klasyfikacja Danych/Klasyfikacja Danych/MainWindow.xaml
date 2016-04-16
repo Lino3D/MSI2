@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Menu IsMainMenu="True" Grid.RowSpan="1" Grid.Row="0">
+        <Menu IsMainMenu="True" Grid.RowSpan="1" Grid.Row="0" Margin="0,0,0,287">
             <MenuItem Header="_File">
                 <MenuItem Header="Open" >
                     <MenuItem.Icon>
@@ -40,5 +40,11 @@
             <MenuItem x:Name="_Start" Header="Start"  />
             <MenuItem Header="Artykuły" Click="MenuItem_Click"/>
         </Menu>
+        <Grid HorizontalAlignment="Left" Height="95" Margin="10,37,0,0" VerticalAlignment="Top" Width="246">
+            <Label Content="Ilość słów w Bag of Words:" Height="26" VerticalAlignment="Top" Margin="0,0,94,0"/>
+            <Label Content="Ilość słów w artykułach:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,26,0,0" Width="151"/>
+            <Label x:Name="LabelBoW" Content="" HorizontalAlignment="Left" Margin="157,0,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="LabelNumberOfWords" Content="" HorizontalAlignment="Left" Margin="151,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.324,-0.56"/>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>

@@ -59,14 +59,5 @@ namespace Klasyfikacja_Danych.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to bbb.
-        /// </summary>
-        internal static string MotoryzacjaArtykuly {
-            get {
-                return ResourceManager.GetString("MotoryzacjaArtykuly", resourceCulture);
-            }
-        }
     }
 }

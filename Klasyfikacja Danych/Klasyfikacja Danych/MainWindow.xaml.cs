@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using Klasyfikacja_Danych.Classes;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +21,28 @@ namespace Klasyfikacja_Danych
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : MetroWindow
-
     {
+        BagOfWords bow = new BagOfWords();
+  //      ReadArticles ra = new ReadArticles();
+        
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
+            UpdateLabels();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             ArtykulyWindow window = new ArtykulyWindow();
             window.ShowDialog();
+            UpdateLabels();
+        }
+        private void UpdateLabels()
+        {
+       //     ra.ReadArticlesFromProgramFile();
+       //     LabelNumberOfWords.Content = ra.GetWordsNumber();
+
+            LabelBoW.Content = bow.GetWordsList().Count;
         }
     }
 }

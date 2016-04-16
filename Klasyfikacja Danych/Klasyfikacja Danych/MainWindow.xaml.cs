@@ -26,5 +26,11 @@ namespace Klasyfikacja_Danych
         {
             InitializeComponent();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ArtykulyWindow window = new ArtykulyWindow();
+            window.ShowDialog();
+        }
     }
 }

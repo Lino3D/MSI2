@@ -38,6 +38,7 @@
             </MenuItem>
             <MenuItem Header="_Help" />
             <MenuItem x:Name="_Start" Header="Start"  />
+            <MenuItem Header="Artykuły" Click="MenuItem_Click"/>
         </Menu>
     </Grid>
 </Controls:MetroWindow>

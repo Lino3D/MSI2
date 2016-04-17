@@ -22,20 +22,46 @@ namespace Klasyfikacja_Danych.Classes
 
         public static void CalculateTFIDF(BagOfWords bow)
         {
-            int index = 0;
-            int count = 0;
-            List<int> Frequency = new List<int>();
+           
+       
+            int j = 0; //current vector for TFIDF
             var vectors = bow.GetVectorsList();
-            foreach( var word in bow.GetWordsList())
+            List<List<double>> WholeTFIDF = new List<List<double>>();
+
+            while (j < vectors.Count())
             {
-                count = 0;
-                foreach (var v in vectors)
-                    count += v.GetVector().ElementAt(index);
-                Frequency.Add(count);
-
-
-                index++;
+                List<double> TFIDF = new List<double>();
+                var v = vectors[j].GetVector();
+                int index = 0;
+                while (index < v.Count())
+                {
+                    int count = 0;
+                    int TF = v[index]; //Term frequency is stored in Bag of Word
+                    foreach (var vector in vectors)
+                    {
+                        List<int> V = vector.GetVector();
+                        foreach (var x in V)
+                        {
+                            if (x > 0)
+                                count++;
+                        }
+                    }
+                    double IDF = Math.Log(vectors.Count() / count);
+                    TFIDF.Add(IDF * TF);
+                    index++;
+                }
+                WholeTFIDF.Add(TFIDF); //adding whole list to list of lists.
+                j++;
             }
+
+            //foreach( var word in bow.GetWordsList())
+            //{
+            //    count = 0;
+            //    foreach (var v in vectors)
+            //        count += v.GetVector().ElementAt(index);
+            //    Frequency.Add(count);
+            //    index++;
+            //}
         }
     }
 }

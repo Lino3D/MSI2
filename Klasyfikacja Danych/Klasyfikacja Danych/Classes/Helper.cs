@@ -39,12 +39,10 @@ namespace Klasyfikacja_Danych.Classes
                     int TF = v[index]; //Term frequency is stored in Bag of Word
                     foreach (var vector in vectors)
                     {
-                        List<int> V = vector.GetVector();
-                        foreach (var x in V)
-                        {
-                            if (x > 0)
-                                count++;
-                        }
+                        List<int> V = vector.GetVector();           
+                        if (V[index] > 0)
+                            count++;
+
                     }
                     double IDF = Math.Log(vectors.Count() / count);
                     TFIDF.Add(IDF * TF);

@@ -122,6 +122,10 @@ namespace Klasyfikacja_Danych.Classes
         {
             return Words;
         }
+        public List<Vector> GetVectorsList()
+        {
+            return Vectors;
+        }
 
         public void ResetujBagOfWords()
         {
@@ -134,7 +138,7 @@ namespace Klasyfikacja_Danych.Classes
 
     }
 
-    class Vector
+    public class Vector
     {
         List<int> vector = new List<int>();
         string Name;

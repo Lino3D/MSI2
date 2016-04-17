@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Klasyfikacja_Danych"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        ResizeMode="CanResizeWithGrip"            
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
         <ResourceDictionary>

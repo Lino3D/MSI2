@@ -23,7 +23,6 @@ namespace Klasyfikacja_Danych.Classes
         public static void CalculateTFIDF(BagOfWords bow)
         {
            
-       
             int j = 0; //current vector for TFIDF
             var vectors = bow.GetVectorsList();
             List<List<double>> WholeTFIDF = new List<List<double>>();
@@ -52,14 +51,6 @@ namespace Klasyfikacja_Danych.Classes
                 j++;
             }
 
-            //foreach( var word in bow.GetWordsList())
-            //{
-            //    count = 0;
-            //    foreach (var v in vectors)
-            //        count += v.GetVector().ElementAt(index);
-            //    Frequency.Add(count);
-            //    index++;
-            //}
         }
     }
 }

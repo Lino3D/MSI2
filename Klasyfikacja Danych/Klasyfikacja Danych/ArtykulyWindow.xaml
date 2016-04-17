@@ -6,35 +6,41 @@
         xmlns:local="clr-namespace:Klasyfikacja_Danych"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="ArtykulyWindow" Height="475.126" Width="652.284">
+        Title="ArtykulyWindow" Height="475.126" Width="652.284"
+        ResizeMode="CanResizeWithGrip"             
+                       >
     <Grid>
-        <TabControl x:Name="MainTabControl" HorizontalAlignment="Left" Height="365" Margin="10,10,0,0" VerticalAlignment="Top" Width="623" Loaded="MainTabControl_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <TabControl x:Name="MainTabControl" Height="auto" Margin="16,44,6,34" Width="auto" Loaded="MainTabControl_Loaded" Grid.RowSpan="1" Grid.Row="0">
             <TabItem x:Name="MotoryzacjaTab" Header="Motoryzacja">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="MotoryzacjaTextBox" AcceptsReturn="True" HorizontalAlignment="Left" Height="320" TextWrapping="Wrap" VerticalAlignment="Top" Width="617"/>
+                    <TextBox x:Name="MotoryzacjaTextBox" AcceptsReturn="True" Height="auto" TextWrapping="Wrap" Width="auto"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="KulinariaTab" Header="Kulinaria">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="KulinariaTextBox" AcceptsReturn="True" HorizontalAlignment="Left" Height="320" TextWrapping="Wrap" VerticalAlignment="Top" Width="617"/>
+                    <TextBox x:Name="KulinariaTextBox" AcceptsReturn="True" Height="auto" TextWrapping="Wrap" Width="auto"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ZoologiaTab" Header="Zoologia" HorizontalAlignment="Left" Height="39" VerticalAlignment="Top" Width="119" Margin="0,0,-14,0">
+            <TabItem x:Name="ZoologiaTab" Header="Zoologia" Height="39" Width="119" Margin="0,0,-14,0">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="ZoologiaTextBox" AcceptsReturn="True" HorizontalAlignment="Left" Height="320" TextWrapping="Wrap" VerticalAlignment="Top" Width="617"/>
+                    <TextBox x:Name="ZoologiaTextBox" AcceptsReturn="True" Height="auto" TextWrapping="Wrap" Width="auto"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="TechnologiaTab" Header="Technologia" HorizontalAlignment="Left" Height="39" VerticalAlignment="Top" Width="155" Margin="0,0,-50,0">
                 <Grid x:Name="___No_Name_" Background="#FFE5E5E5">
-                    <TextBox x:Name="TechnologiaTextBox" AcceptsReturn="True" HorizontalAlignment="Left" Height="320" TextWrapping="Wrap" VerticalAlignment="Top" Width="617"/>
+                    <TextBox x:Name="TechnologiaTextBox" AcceptsReturn="True" Height="auto" TextWrapping="Wrap" Width="auto"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="SaveButton" Content="Save Changes" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="-0.313,-0.423" Height="28" Click="SaveButton_Click"/>
-        <Button x:Name="ReadPDFsButton" Content="Read PDFs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="127,383,0,0" Click="Button_Click"/>
+        <Button x:Name="SaveButton" Content="Save Changes" HorizontalAlignment="Left" Margin="33,2,0,0" VerticalAlignment="Top" Width="96" RenderTransformOrigin="-0.313,-0.423" Height="28" Click="SaveButton_Click" Grid.Row="1"/>
+        <Button x:Name="ReadPDFsButton" Content="Read PDFs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="79" Margin="134,2,0,0" Click="Button_Click" Height="28" Grid.Row="1"/>
 
     </Grid>
 </Controls:MetroWindow>

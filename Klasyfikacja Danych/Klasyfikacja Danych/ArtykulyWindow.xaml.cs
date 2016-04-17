@@ -1,4 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +38,7 @@ namespace Klasyfikacja_Danych
 
             var TextBoxCollection = FindLogicalChildren<TextBox>(MainTabControl);
 
-            foreach( var item in TextBoxCollection)
+            foreach (var item in TextBoxCollection)
             {
                 System.IO.File.WriteAllText(startupPath + @"\" + item.Name + ".txt", item.Text);
             }
@@ -48,7 +50,7 @@ namespace Klasyfikacja_Danych
             if (depObj != null)
             {
                 var t = LogicalTreeHelper.GetChildren(depObj);
-                foreach( var child1 in t)
+                foreach (var child1 in t)
                 {
                     DependencyObject child = child1 as DependencyObject;
                     if (child != null && child is T)
@@ -74,12 +76,12 @@ namespace Klasyfikacja_Danych
             var t = Directory.GetDirectories(startupPath, "Artykuly");
             startupPath += @"\Artykuly\";
             if (t.Count() != 0)
-            {                
+            {
                 var files = Directory.GetFiles(startupPath);
                 if (files.Count() != 0)
                 {
                     var TextBoxColletion = FindLogicalChildren<TextBox>(MainTabControl);
-                    List<string> UnvisitedFiles = new List<string>();                    
+                    List<string> UnvisitedFiles = new List<string>();
                     foreach (var item in files)
                     {
                         FileVisited = false;
@@ -96,6 +98,62 @@ namespace Klasyfikacja_Danych
                         File.Delete(item);
                 }
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            string startupPath = System.IO.Directory.GetCurrentDirectory();
+            var t = Directory.GetDirectories(startupPath, "ArtykulyPDF");
+            startupPath += @"\ArtykulyPDF";
+            if (t.Count() == 0)
+            {
+                Directory.CreateDirectory(startupPath);
+                MessageBox.Show("Folder z plikami PDF jest pusty");
+                return;
+            }
+
+            var FolderyPDF = Directory.GetDirectories(startupPath + @"\");
+            var TextBoxColletion = FindLogicalChildren<TextBox>(MainTabControl);
+
+            foreach (var folder in FolderyPDF)
+            {
+                foreach (var TB in TextBoxColletion)
+                {
+                    if (folder.Split('\\').Last().Contains(TB.Name.ToString().Replace("TextBox", "")))
+                    {
+                        LoadAllPDFs(folder, TB);
+                    }
+
+                }
+
+
+
+            }
+        }
+
+        private static void LoadAllPDFs(string folder, TextBox TB)
+        {
+            StringBuilder text = new StringBuilder();
+            var files = Directory.GetFiles(folder + @"\");
+            foreach (var file in files)
+            {
+                using (PdfReader pdfReader = new PdfReader(file))
+                {
+
+                    for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                    {
+                        ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
+                        string currentText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+                        
+                        currentText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(currentText)));
+                        text.Append(currentText);
+                    }
+                    pdfReader.Close();
+                }
+                text.Append("\n{NEWARTICLE}\n");
+            }
+            TB.Text = text.ToString();
         }
     }
 }

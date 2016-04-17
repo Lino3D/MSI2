@@ -108,13 +108,13 @@ namespace Klasyfikacja_Danych.Classes
         {
             var tmp = Helper.FormatText(text);
             AddWords(tmp);
-            Vector v = new Vector(Words, tmp, Name);
+            Vector v = new Vector(Words, tmp, Name,StopWords);
             Vectors.Add(v);
         }
         public void AddVector(List<string> words, string Name)
         {
             AddWords(words);
-            Vector v = new Vector(Words, words, Name);
+            Vector v = new Vector(Words, words, Name, StopWords);
             Vectors.Add(v);
         }
 
@@ -135,7 +135,6 @@ namespace Klasyfikacja_Danych.Classes
                 Vectors.RemoveRange(0, Vectors.Count);
         }
 
-
     }
 
     public class Vector
@@ -143,13 +142,16 @@ namespace Klasyfikacja_Danych.Classes
         List<int> vector = new List<int>();
         string Name;
 
-        public Vector(List<string> BoWWords, List<string> words, string name)
+        public Vector(List<string> BoWWords, List<string> words, string name, List<string> StopWords)
         {
             int index;
             for (int i = 0; i < BoWWords.Count; i++)
                 vector.Add(0);
             foreach (var word in words)
             {
+                //Sprawdzanie stopwords jest rowniez przy addwords. Nie jest to zbyt optymalne. Moznaby poprawic kiedys
+                if (StopWords.Contains(word))
+                    continue;
                 index = BoWWords.FindIndex(o => o == word);
                 vector[index]++;
             }

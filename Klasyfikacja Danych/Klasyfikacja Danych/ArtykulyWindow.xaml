@@ -34,6 +34,7 @@
             </TabItem>
         </TabControl>
         <Button x:Name="SaveButton" Content="Save Changes" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="-0.313,-0.423" Height="28" Click="SaveButton_Click"/>
+        <Button x:Name="ReadPDFsButton" Content="Read PDFs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="127,383,0,0" Click="Button_Click"/>
 
     </Grid>
 </Controls:MetroWindow>

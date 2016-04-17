@@ -19,5 +19,23 @@ namespace Klasyfikacja_Danych.Classes
             lst.RemoveAll(o => o == "");
             return lst;
         }
+
+        public static void CalculateTFIDF(BagOfWords bow)
+        {
+            int index = 0;
+            int count = 0;
+            List<int> Frequency = new List<int>();
+            var vectors = bow.GetVectorsList();
+            foreach( var word in bow.GetWordsList())
+            {
+                count = 0;
+                foreach (var v in vectors)
+                    count += v.GetVector().ElementAt(index);
+                Frequency.Add(count);
+
+
+                index++;
+            }
+        }
     }
 }

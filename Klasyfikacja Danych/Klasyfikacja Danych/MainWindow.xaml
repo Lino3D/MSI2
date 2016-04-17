@@ -17,7 +17,7 @@
     <Grid>
         <Menu IsMainMenu="True" Grid.RowSpan="1" Grid.Row="0" Margin="0,0,0,287">
             <MenuItem Header="_File">
-                <MenuItem Header="Open" >
+                <MenuItem Header="Open" Click="MenuItem_Click_1">
                     <MenuItem.Icon>
                         <Rectangle  Height="20" Width="20" StrokeThickness="0">
                             <Rectangle.Fill>

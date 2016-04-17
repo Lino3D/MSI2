@@ -1,7 +1,10 @@
-﻿using Klasyfikacja_Danych.Classes;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
+using Klasyfikacja_Danych.Classes;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +27,8 @@ namespace Klasyfikacja_Danych
     {
         BagOfWords bow = new BagOfWords();
         ReadArticles ra = new ReadArticles();
-        
+        StringBuilder text = new StringBuilder();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,6 +61,27 @@ namespace Klasyfikacja_Danych
             LoadBagOfWords();
             UpdateLabels();
         }
-        
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+                PdfReader pdfReader = new PdfReader(fileName);
+
+                for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                {
+                    ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
+                    string currentText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+
+                    currentText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(currentText)));
+                    text.Append(currentText);
+                }
+                pdfReader.Close();
+                MessageBox.Show(text.ToString());
+            }
+        }
     }
 }

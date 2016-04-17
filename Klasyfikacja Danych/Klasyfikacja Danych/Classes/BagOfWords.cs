@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Klasyfikacja_Danych.Classes
 {
-    
+
     public class BagOfWords
     {
         #region StopWords
@@ -17,31 +17,84 @@ namespace Klasyfikacja_Danych.Classes
         List<Vector> Vectors = new List<Vector>();
         List<string> Words = new List<string>();
 
-
-        bool VectorsAdded = false;
-        public void AddWords(string text, params string[] MoreText)
+        public void AddWords(string text)
         {
-            if (VectorsAdded)
-                throw (new Exception("Wczesniej zostaly dodane wektory. Nie mozna kontynuowac, gdyz nie zgadzaja sie wymiary"));
             var tmp = Helper.FormatText(text);
             foreach (var word in tmp)
                 if (!StopWords.Contains(word) && !Words.Contains(word))
                     Words.Add(word);
-            // Params part of the declaration of function
-            if( MoreText != null && MoreText.Count() != 0)
-                foreach( var txt in MoreText)
+            AdjustVectorLists(null);
+        }
+        public void AddWords(List<string> words)
+        {
+            foreach (var word in words)
+                if (!StopWords.Contains(word) && !Words.Contains(word))
+                    Words.Add(word);
+            AdjustVectorLists(null);
+        }
+        public void RemoveWords(params string[] ToRemove)
+        {
+            int index;
+            if (ToRemove.Count() != 0)
+            {
+                List<int> RemoveIndices = new List<int>();
+                foreach (var RemovedWord in ToRemove)
                 {
-                    var tmp2 = Helper.FormatText(text);
-                    foreach (var word in tmp2)
-                        if (!StopWords.Contains(word) && !Words.Contains(word))
-                            Words.Add(word);
+                    index = Words.IndexOf(RemovedWord);
+                    Words.RemoveAt(index);
+                    RemoveIndices.Add(index);
                 }
+                AdjustVectorLists(RemoveIndices.ToArray());
+                RemoveIndices = null;
+            }
+        }
+        public void RemoveWords(List<string> ToRemove)
+        {
+            int index;
+            if (ToRemove.Count() != 0)
+            {
+                List<int> RemoveIndices = new List<int>();
+                foreach (var RemovedWord in ToRemove)
+                {
+                    index = Words.IndexOf(RemovedWord);
+                    Words.RemoveAt(index);
+                    RemoveIndices.Add(index);
+                }
+                AdjustVectorLists(RemoveIndices.ToArray());
+                RemoveIndices = null;
+            }
+        }
+        private void AdjustVectorLists(params int[] RemovedIndexes)
+        {
+            foreach (var vector in Vectors)
+            {
+                var v = vector.GetVector();
+                if (v.Count < Words.Count)//&& RemovedIndexes.Count() == 0)
+                    for (int i = Words.Count - v.Count; i > 0; i--)
+                        v.Add(0);
+                else if (v.Count > Words.Count && RemovedIndexes != null && RemovedIndexes.Count() != 0)
+                {
+                    foreach (var removed in RemovedIndexes)
+                        v.RemoveAt(removed);
+                }
+                else if ((v.Count > Words.Count && RemovedIndexes == null) || (v.Count > Words.Count && RemovedIndexes != null && RemovedIndexes.Count() == 0))
+                    throw (new Exception("Nie zespecyfikowana tablica usunietych slow przy usuwaniu słów z Words."));
+                else if (v.Count != Words.Count)
+                    throw (new Exception("An error occured. Some values in Words list and Vectors list doesnt match"));
+
+            }
         }
         public void AddVector(string text, string Name)
         {
-            VectorsAdded = true;
             var tmp = Helper.FormatText(text);
-            Vector v = new Vector(Words,tmp,Name);
+            AddWords(tmp);
+            Vector v = new Vector(Words, tmp, Name);
+            Vectors.Add(v);
+        }
+        public void AddVector(List<string> words, string Name)
+        {
+            AddWords(words);
+            Vector v = new Vector(Words, words, Name);
             Vectors.Add(v);
         }
 
@@ -52,31 +105,36 @@ namespace Klasyfikacja_Danych.Classes
 
         public void ResetujBagOfWords()
         {
-            Words.RemoveRange(0, Words.Count - 1);
-            Vectors.RemoveRange(0, Vectors.Count - 1);
-            VectorsAdded = false;
+            if (Words.Count != 0)
+                Words.RemoveRange(0, Words.Count);
+            if (Vectors.Count != 0)
+                Vectors.RemoveRange(0, Vectors.Count);
         }
 
-        
+
     }
 
     class Vector
     {
-        int[] vector;
+        List<int> vector = new List<int>();
         string Name;
 
-        public Vector(List<string> BoWWords, List<string> words, string name )
+        public Vector(List<string> BoWWords, List<string> words, string name)
         {
             int index;
-            vector = new int[BoWWords.Count];
-            for( int i = 0; i < BoWWords.Count; i++)
-                vector[i] = 0;
-            foreach( var word in words )
+            for (int i = 0; i < BoWWords.Count; i++)
+                vector.Add(0);
+            foreach (var word in words)
             {
-                index = BoWWords.FindIndex( o => o == word);
+                index = BoWWords.FindIndex(o => o == word);
                 vector[index]++;
             }
             Name = name;
+        }
+
+        public List<int> GetVector()
+        {
+            return vector;
         }
     }
 }

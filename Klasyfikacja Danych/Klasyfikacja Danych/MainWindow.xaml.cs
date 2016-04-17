@@ -23,26 +23,40 @@ namespace Klasyfikacja_Danych
     public partial class MainWindow : MetroWindow
     {
         BagOfWords bow = new BagOfWords();
-  //      ReadArticles ra = new ReadArticles();
+        ReadArticles ra = new ReadArticles();
         
         public MainWindow()
         {
-            InitializeComponent();            
-            UpdateLabels();
+            InitializeComponent();
+            Refresh();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             ArtykulyWindow window = new ArtykulyWindow();
             window.ShowDialog();
-            UpdateLabels();
+            Refresh();
         }
         private void UpdateLabels()
         {
-       //     ra.ReadArticlesFromProgramFile();
-       //     LabelNumberOfWords.Content = ra.GetWordsNumber();
+            ra.ReadArticlesFromProgramFile();
+            LabelNumberOfWords.Content = ra.GetWordsNumber();
 
             LabelBoW.Content = bow.GetWordsList().Count;
         }
+        private void LoadBagOfWords()
+        {
+            var articles = ra.GetLoadedArticles();
+            bow.ResetujBagOfWords();
+            foreach (var item in articles)
+                bow.AddVector(item.GetArticle(), item.GetName());
+        }
+        private void Refresh()
+        {
+            ra.ReadArticlesFromProgramFile();
+            LoadBagOfWords();
+            UpdateLabels();
+        }
+        
     }
 }

@@ -12,10 +12,11 @@ namespace Klasyfikacja_Danych.Classes
         public static List<string> FormatText(string text)
         {
             List<string> lst = new List<string>();
-
+            text = text.Replace('\n', ' ');
             Regex rgx = new Regex("[^a-zA-Z0-9 -]");
             text = rgx.Replace(text, "");
             lst = text.Split(' ').ToList();
+            lst.RemoveAll(o => o == "");
             return lst;
         }
     }

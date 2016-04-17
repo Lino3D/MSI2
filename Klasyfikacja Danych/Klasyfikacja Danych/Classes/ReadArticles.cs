@@ -11,10 +11,10 @@ namespace Klasyfikacja_Danych.Classes
 {
     public class ReadArticles
     {
-        ArtykulyWindow w = new ArtykulyWindow();
-        List<string> Articles = new List<string>();
+        List<Article> Articles = new List<Article>();
         public void ReadArticlesFromProgramFile()
-        {            
+        {
+            Articles.Clear();
             string startupPath = System.IO.Directory.GetCurrentDirectory();
             var t = Directory.GetDirectories(startupPath, "Artykuly");
             startupPath += @"\Artykuly\";
@@ -22,23 +22,24 @@ namespace Klasyfikacja_Danych.Classes
             {
                 var files = Directory.GetFiles(startupPath);
                 if (files.Count() != 0)
-                {                    
-                    var TextBoxColletion = FindLogicalChildren<TextBox>(w.MainTabControl);
+                {
                     foreach (var item in files)
                     {
-                        foreach (var TextBoxItem in TextBoxColletion)
-                            if (item.Contains(TextBoxItem.Name.ToString()))
-                                Articles.Add(System.IO.File.ReadAllText(startupPath + TextBoxItem.Name + ".txt"));
+                        //Wycieki pamieci???
+                        Articles.Add(new Article(Helper.FormatText(System.IO.File.ReadAllText(item)),item.ToString()));
                     }
                 }
             }
         }
-
+        public List<Article> GetLoadedArticles()
+        {
+            return Articles;                
+        }
         public int GetWordsNumber()
         {
             int count = 0;
             foreach (var article in Articles)
-                count += Helper.FormatText(article).Count();
+                count += article.GetArticle().Count;
             return count;
         }
         public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject depObj) where T : DependencyObject

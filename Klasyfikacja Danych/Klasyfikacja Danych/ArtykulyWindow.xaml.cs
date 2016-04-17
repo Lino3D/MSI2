@@ -69,21 +69,31 @@ namespace Klasyfikacja_Danych
 
         private void MainTabControl_Loaded(object sender, RoutedEventArgs e)
         {
+            bool FileVisited = false;
             string startupPath = System.IO.Directory.GetCurrentDirectory();
             var t = Directory.GetDirectories(startupPath, "Artykuly");
             startupPath += @"\Artykuly\";
             if (t.Count() != 0)
-            {
+            {                
                 var files = Directory.GetFiles(startupPath);
                 if (files.Count() != 0)
                 {
                     var TextBoxColletion = FindLogicalChildren<TextBox>(MainTabControl);
+                    List<string> UnvisitedFiles = new List<string>();                    
                     foreach (var item in files)
                     {
+                        FileVisited = false;
                         foreach (var TextBoxItem in TextBoxColletion)
                             if (item.Contains(TextBoxItem.Name.ToString()))
+                            {
                                 TextBoxItem.Text = System.IO.File.ReadAllText(startupPath + TextBoxItem.Name + ".txt");
+                                FileVisited = true;
+                            }
+                        if (!FileVisited)
+                            UnvisitedFiles.Add(item);
                     }
+                    foreach (var item in UnvisitedFiles)
+                        File.Delete(item);
                 }
             }
         }

@@ -47,6 +47,7 @@ namespace Klasyfikacja_Danych
             LabelNumberOfWords.Content = ra.GetWordsNumber();
 
             LabelBoW.Content = bow.GetWordsList().Count;
+            NumberOfReadArticlesLabel.Content = ra.GetLoadedArticles().Count;
         }
         private void LoadBagOfWords()
         {
@@ -82,6 +83,12 @@ namespace Klasyfikacja_Danych
                 pdfReader.Close();
                 MessageBox.Show(text.ToString());
             }
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            AboutWindow window = new AboutWindow();
+            window.ShowDialog();
         }
     }
 }

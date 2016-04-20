@@ -15,6 +15,7 @@ namespace Klasyfikacja_Danych.Classes
         public void ReadArticlesFromProgramFile()
         {
             Articles.Clear();
+            
             string startupPath = System.IO.Directory.GetCurrentDirectory();
             var t = Directory.GetDirectories(startupPath, "Artykuly");
             startupPath += @"\Artykuly\";
@@ -25,9 +26,26 @@ namespace Klasyfikacja_Danych.Classes
                 {
                     foreach (var item in files)
                     {
-                        //Wycieki pamieci???
-                        Articles.Add(new Article(Helper.FormatText(System.IO.File.ReadAllText(item)),item.ToString()));
+                        CreateArticlesFromTXTFile(item);                        
                     }
+                }
+            }
+        }
+
+        private void CreateArticlesFromTXTFile(string item)
+        {
+            //Wycieki pamieci???
+            var text = System.IO.File.ReadAllText(item);
+            int id = 0;
+            int index = 0;
+            while (index != -1)
+            {
+                index = text.IndexOf("\n{NEWARTICLE}\n");
+                if (index != -1)
+                {
+                    Articles.Add(new Article(Helper.FormatText(text.Substring(0, index)), item.Split('\\').Last().Replace("TextBox.txt", "").ToString() + "_" + id++));
+                    text = text.Substring(index + 14);
+
                 }
             }
         }

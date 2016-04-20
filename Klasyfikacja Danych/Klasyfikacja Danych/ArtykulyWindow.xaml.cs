@@ -102,7 +102,7 @@ namespace Klasyfikacja_Danych
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            int PDFCounter = 0;
             string startupPath = System.IO.Directory.GetCurrentDirectory();
             var t = Directory.GetDirectories(startupPath, "ArtykulyPDF");
             startupPath += @"\ArtykulyPDF";
@@ -122,18 +122,17 @@ namespace Klasyfikacja_Danych
                 {
                     if (folder.Split('\\').Last().Contains(TB.Name.ToString().Replace("TextBox", "")))
                     {
-                        LoadAllPDFs(folder, TB);
+                        PDFCounter += LoadAllPDFs(folder, TB);
                     }
-
                 }
-
-
-
             }
+            PDFInfoPanel.Visibility = System.Windows.Visibility.Visible;
+            PDFLabel.Content = "" + PDFCounter;
         }
 
-        private static void LoadAllPDFs(string folder, TextBox TB)
+        private static int LoadAllPDFs(string folder, TextBox TB)
         {
+            int PDFCounter = 0;
             StringBuilder text = new StringBuilder();
             var files = Directory.GetFiles(folder + @"\");
             foreach (var file in files)
@@ -151,9 +150,11 @@ namespace Klasyfikacja_Danych
                     }
                     pdfReader.Close();
                 }
+                PDFCounter++;
                 text.Append("\n{NEWARTICLE}\n");
             }
             TB.Text = text.ToString();
+            return PDFCounter;
         }
     }
 }

@@ -39,8 +39,12 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="SaveButton" Content="Save Changes" HorizontalAlignment="Left" Margin="33,2,0,0" VerticalAlignment="Top" Width="96" RenderTransformOrigin="-0.313,-0.423" Height="28" Click="SaveButton_Click" Grid.Row="1"/>
-        <Button x:Name="ReadPDFsButton" Content="Read PDFs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="79" Margin="134,2,0,0" Click="Button_Click" Height="28" Grid.Row="1"/>
+        <Button x:Name="SaveButton" Content="Save Changes" HorizontalAlignment="Left" Margin="33,2,0,0" VerticalAlignment="Top" Width="96" RenderTransformOrigin="-0.313,-0.423" Height="28" Click="SaveButton_Click" Grid.Row="1" ToolTip="Saves changes to txt files places in /Artykuly directory"/>
+        <Button x:Name="ReadPDFsButton" Content="Read PDFs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="79" Margin="134,2,0,0" Click="Button_Click" Height="28" Grid.Row="1" ToolTip="Loads PDF's from /ArtykulyPDF directory"/>
+        <WrapPanel x:Name="PDFInfoPanel" HorizontalAlignment="Left" Height="29" Margin="232,1,0,0" VerticalAlignment="Top" Width="143" Grid.Row="1" Visibility="Hidden">
+            <Label Content="PDF's Loaded:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label x:Name="PDFLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </WrapPanel>
 
     </Grid>
 </Controls:MetroWindow>

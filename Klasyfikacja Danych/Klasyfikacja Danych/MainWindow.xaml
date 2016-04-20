@@ -37,15 +37,19 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Help" />
+            <MenuItem Header="_Help" Click="MenuItem_Click_2" >
+                <MenuItem Header="About"/>
+            </MenuItem>
             <MenuItem x:Name="_Start" Header="Start"  />
             <MenuItem Header="Artykuły" Click="MenuItem_Click"/>
         </Menu>
-        <Grid HorizontalAlignment="Left" Height="95" Margin="10,37,0,0" VerticalAlignment="Top" Width="246">
-            <Label Content="Ilość słów w Bag of Words:" Height="26" VerticalAlignment="Top" Margin="0,0,94,0"/>
-            <Label Content="Ilość słów w artykułach:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,26,0,0" Width="151"/>
-            <Label x:Name="LabelBoW" Content="" HorizontalAlignment="Left" Margin="157,0,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="LabelNumberOfWords" Content="" HorizontalAlignment="Left" Margin="151,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.324,-0.56"/>
-        </Grid>
+        <WrapPanel HorizontalAlignment="Left" Height="85" Margin="10,37,0,0" VerticalAlignment="Top" Width="209">
+            <Label Content="Ilość słów w Bag of Words:" Height="26" VerticalAlignment="Top" Width="159"/>
+            <Label x:Name="LabelBoW" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="37"/>
+            <Label Content="Ilość słów w artykułach:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="159"/>
+            <Label x:Name="LabelNumberOfWords" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.324,-0.56" Width="35"/>
+            <Label Content="Ilość wczytanych artykułów:" Width="159"/>
+            <Label x:Name="NumberOfReadArticlesLabel" Content="" Width="36"/>
+        </WrapPanel>
     </Grid>
 </Controls:MetroWindow>

@@ -28,7 +28,7 @@ namespace Klasyfikacja_Danych
         BagOfWords bow = new BagOfWords();
         ReadArticles ra = new ReadArticles();
         StringBuilder text = new StringBuilder();
-
+        List<DataClass> classes = new List<DataClass>();
         public MainWindow()
         {
             InitializeComponent();
@@ -89,6 +89,13 @@ namespace Klasyfikacja_Danych
         {
             AboutWindow window = new AboutWindow();
             window.ShowDialog();
+        }
+
+        private void _Start_Click(object sender, RoutedEventArgs e)
+        {
+            classes = DataClass.CreateDataClasses(bow);
+            MessageBox.Show("hello wolrd");
+
         }
     }
 }

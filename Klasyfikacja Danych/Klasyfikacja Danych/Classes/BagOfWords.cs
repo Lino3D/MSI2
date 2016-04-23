@@ -162,5 +162,10 @@ namespace Klasyfikacja_Danych.Classes
         {
             return vector;
         }
+        public string GetVectorName()
+        {
+            return Name;
+        }
+
     }
 }

@@ -91,7 +91,9 @@
     </Compile>
     <Compile Include="Classes\Article.cs" />
     <Compile Include="Classes\BagOfWords.cs" />
+    <Compile Include="Classes\DataClass.cs" />
     <Compile Include="Classes\Helper.cs" />
+    <Compile Include="Classes\kNN.cs" />
     <Compile Include="Classes\PDF reader.cs" />
     <Compile Include="Classes\ReadArticles.cs" />
     <Compile Include="DialogResult.cs" />

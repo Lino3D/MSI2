@@ -40,7 +40,7 @@
             <MenuItem Header="_Help" Click="MenuItem_Click_2" >
                 <MenuItem Header="About"/>
             </MenuItem>
-            <MenuItem x:Name="_Start" Header="Start"  />
+            <MenuItem x:Name="_Start" Header="Start" Click="_Start_Click"  />
             <MenuItem Header="Artykuły" Click="MenuItem_Click"/>
         </Menu>
         <WrapPanel HorizontalAlignment="Left" Height="85" Margin="10,37,0,0" VerticalAlignment="Top" Width="209">

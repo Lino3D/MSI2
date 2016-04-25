@@ -94,6 +94,11 @@ namespace Klasyfikacja_Danych
         private void _Start_Click(object sender, RoutedEventArgs e)
         {
             classes = DataClass.CreateDataClasses(bow);
+            classes = kNN.CreateTrainingSet(classes, bow,3);
+
+            List<myVector> vectors = bow.GetVectorsList();
+            myVector v = vectors[4];
+            int id = kNN.CalculateKNN(v, classes, 1);
             MessageBox.Show("hello wolrd");
 
         }

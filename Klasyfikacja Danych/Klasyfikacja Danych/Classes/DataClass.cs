@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Klasyfikacja_Danych.Classes
 {
-    class DataClass
+    public class DataClass
     {
-        List<Vector> Vectors = new List<Vector>();
+        List<myVector> Vectors = new List<myVector>();
         string ClassName;
 
-        public DataClass(Vector x, string y)
+        public DataClass(myVector x, string y)
         {
             Vectors.Add(x);
             ClassName = y;
         }
-        public DataClass(List<Vector> x, string y)
+        public DataClass(List<myVector> x, string y)
         {
-            foreach(Vector V in x)
+            foreach(myVector V in x)
             {
                 Vectors.Add(V);
             }
@@ -28,12 +28,24 @@ namespace Klasyfikacja_Danych.Classes
         {
             ClassName = x;
         }
+        public string GetName()
+        {
+            return ClassName;
+        }
+        public List<myVector> GetVectors()
+        {
+            return Vectors;
+        }
+        public void AddVector(myVector V)
+        {
+            Vectors.Add(V);
+        }
         public static List<DataClass> CreateDataClasses(BagOfWords BoW )
         {
             List<String> ClassNames = new List<String>();
             List<DataClass> Classes = new List<DataClass>();
 
-            foreach(Vector v in BoW.GetVectorsList())
+            foreach(myVector v in BoW.GetVectorsList())
             {
                 string Classname = v.GetVectorName();
                 Classname = Classname.Remove(Classname.Length - 2);

@@ -34,7 +34,7 @@ namespace Klasyfikacja_Danych.Classes
             "wtedy", "wy", "właśnie", "z", "za", "zapewne", "zawsze", "ze", "zł", "znowu", "znów", "został", "żaden", "żadna", "żadne", "żadnych", "że", "żeby" };
         #endregion
 
-        List<Vector> Vectors = new List<Vector>();
+        List<myVector> Vectors = new List<myVector>();
         List<string> Words = new List<string>();
 
         public void AddWords(string text)
@@ -108,13 +108,13 @@ namespace Klasyfikacja_Danych.Classes
         {
             var tmp = Helper.FormatText(text);
             AddWords(tmp);
-            Vector v = new Vector(Words, tmp, Name,StopWords);
+            myVector v = new myVector(Words, tmp, Name,StopWords);
             Vectors.Add(v);
         }
         public void AddVector(List<string> words, string Name)
         {
             AddWords(words);
-            Vector v = new Vector(Words, words, Name, StopWords);
+            myVector v = new myVector(Words, words, Name, StopWords);
             Vectors.Add(v);
         }
 
@@ -122,7 +122,7 @@ namespace Klasyfikacja_Danych.Classes
         {
             return Words;
         }
-        public List<Vector> GetVectorsList()
+        public List<myVector> GetVectorsList()
         {
             return Vectors;
         }
@@ -137,12 +137,12 @@ namespace Klasyfikacja_Danych.Classes
 
     }
 
-    public class Vector
+    public class myVector
     {
         List<int> vector = new List<int>();
         string Name;
 
-        public Vector(List<string> BoWWords, List<string> words, string name, List<string> StopWords)
+        public myVector(List<string> BoWWords, List<string> words, string name, List<string> StopWords)
         {
             int index;
             for (int i = 0; i < BoWWords.Count; i++)

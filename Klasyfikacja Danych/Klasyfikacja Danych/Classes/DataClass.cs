@@ -58,4 +58,29 @@ namespace Klasyfikacja_Danych.Classes
             return Classes;
         }
     }
+    public class Neighbour
+    {
+        private int distance;
+        private int id;
+
+        public int Distance
+        {
+            get { return distance; }
+            set { distance = value; }
+        }
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+        public Neighbour(int a, int b)
+        {
+            distance = a;
+            id = b;
+        }
+
+    }
+
+
+
 }

@@ -98,7 +98,7 @@ namespace Klasyfikacja_Danych
 
             List<myVector> vectors = bow.GetVectorsList();
             myVector v = vectors[4];
-            int id = kNN.CalculateKNN(v, classes, 1);
+            int id = kNN.CalculateKNN(v, classes, 3);
             MessageBox.Show("hello wolrd");
 
         }

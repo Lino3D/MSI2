@@ -12,37 +12,54 @@ namespace Klasyfikacja_Danych.Classes
         {
             int minDistance = int.MaxValue;
             int distance = 0;
-            List<int> distances = new List<int>();
+            List<List<int>> distances = new List<List<int>>();
             foreach(DataClass C in Classes)
             {
                 List<myVector> Vectors = C.GetVectors();
+                List<int> classDistance = new List<int>();
 
-                foreach(myVector vector in Vectors)
+                foreach (myVector vector in Vectors)
                 {
+                 
                     distance = HammingDistance(V, vector);
-                    if (distance < minDistance)
-                        minDistance = distance;
+                    classDistance.Add(distance);
                 }
-                distances.Add(minDistance);
-                minDistance = int.MaxValue;
-                distance = 0;
+                distances.Add(classDistance);
             }
-            foreach(int d in distances)
+            List<Neighbour> kNearest = new List<Neighbour>(k);
+            foreach(List<int > cd in distances)
             {
-                if (d < minDistance)
-                    minDistance = d;
+                foreach(int d in cd)
+                {
+                 if(kNearest.Count<k)
+                    {
+                        kNearest.Add(new Neighbour(d, distances.IndexOf(cd)));
+                    }
+                 else
+                    {
+                       for(int i=0; i<k; i++)
+                        {
+                           if(d<kNearest[i].Distance)
+                            {
+                                kNearest[i].Distance = d;
+                                kNearest[i].Id = distances.IndexOf(cd);
+                            }
+                        }
+                    }
+                }
             }
-            int id = distances.IndexOf(minDistance);
+            int[] best = new int[Classes.Count];
+            for(int i=0; i<k; i++)
+            { best[i] = 0; }
+            foreach( Neighbour N in kNearest)
+            {
+                best[N.Id]++;
+            }
+            int bestOption = best.ToList().IndexOf(best.Max());
+            Classes[bestOption].AddVector(V);
 
-            Classes[id].AddVector(V);
-
-            return id;
+        return bestOption;
         }
-
-
-
-
-
 
 
         public static List<DataClass> CreateTrainingSet(List<DataClass> Classes, BagOfWords BoW, int k)
@@ -51,8 +68,7 @@ namespace Klasyfikacja_Danych.Classes
             Random rand = new Random();
 
             foreach (myVector V in Articles)
-            {
-             
+            {             
                 List<int> article = V.GetVector();
                 string name = V.GetVectorName();
                 foreach (DataClass C in Classes)
@@ -65,9 +81,7 @@ namespace Klasyfikacja_Danych.Classes
                         }
                     }
                 }
-
-            }
-         
+            }    
             return Classes;
         }
 

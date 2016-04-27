@@ -13,7 +13,7 @@ namespace Klasyfikacja_Danych.Classes
             int minDistance = int.MaxValue;
             int distance = 0;
             List<List<int>> distances = new List<List<int>>();
-            foreach(DataClass C in Classes)
+            foreach(DataClass C in Classes) 
             {
                 List<myVector> Vectors = C.GetVectors();
                 List<int> classDistance = new List<int>();

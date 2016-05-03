@@ -126,7 +126,7 @@ namespace Klasyfikacja_Danych.Classes
                 {
                     top += v1[i] * v2[i];
                     bottom1 += Math.Pow(Math.Abs(v1[i]),2);
-                    bottom2 += Math.Pow(Math.Abs(v1[i]),2);
+                    bottom2 += Math.Pow(Math.Abs(v2[i]),2);
                 }
 
                 Distance = top / (Math.Sqrt(bottom1) * Math.Sqrt(bottom2));

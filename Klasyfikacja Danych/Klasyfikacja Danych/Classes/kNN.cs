@@ -106,6 +106,37 @@ namespace Klasyfikacja_Danych.Classes
 
            return Distance;
         }
+        public static double CosineDistance(myVector a, myVector  b)
+            {
+
+            List<int> v1 = a.GetVector();
+            List<int> v2 = b.GetVector();
+
+            double Distance = 0;
+
+            if (v1.Count != v2.Count)
+            { return -1; }
+            else
+            {
+                double top=0;
+                double bottom1=0;
+                double bottom2 = 0;
+
+                for (int i = 0; i < v1.Count(); i++)
+                {
+                    top += v1[i] * v2[i];
+                    bottom1 += Math.Pow(Math.Abs(v1[i]),2);
+                    bottom2 += Math.Pow(Math.Abs(v1[i]),2);
+                }
+
+                Distance = top / (Math.Sqrt(bottom1) * Math.Sqrt(bottom2));
+
+            }
+
+            return Distance;
+
+        }
+
 
     }
 }

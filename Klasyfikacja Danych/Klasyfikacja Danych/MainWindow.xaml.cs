@@ -93,13 +93,21 @@ namespace Klasyfikacja_Danych
 
         private void _Start_Click(object sender, RoutedEventArgs e)
         {
+       
+            Helper.CalculateTFIDF(bow);
+
             classes = DataClass.CreateDataClasses(bow);
-            classes = kNN.CreateTrainingSet(classes, bow,3);
+            classes = kNN.CreateFullSet(classes, bow);
 
             List<myVector> vectors = bow.GetVectorsList();
-            myVector v = vectors[4];
-            int id = kNN.CalculateKNN(v, classes, 3);
-            MessageBox.Show("hello wolrd");
+            
+            TestClass T = kNN.CreateTest(classes);
+
+
+             myVector v = vectors[0];
+            //   int id = kNN.CalculateKNN(v, classes, 3);
+            // String classname = classes[id].GetName();
+            // MessageBox.Show(classname);
 
         }
     }

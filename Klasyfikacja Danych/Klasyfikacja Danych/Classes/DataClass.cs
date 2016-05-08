@@ -80,6 +80,26 @@ namespace Klasyfikacja_Danych.Classes
         }
 
     }
+    public class TestClass
+    {
+        public List<DataClass> traininglist = new List<DataClass>();
+       public List<myVector> testlist = new List<myVector>();
+
+    
+
+        public TestClass()
+        {
+
+        }
+
+        public TestClass(List<DataClass> c, List<myVector> V)
+        {
+            traininglist = c;
+            testlist = V;
+        }
+    }
+
+
 
 
 

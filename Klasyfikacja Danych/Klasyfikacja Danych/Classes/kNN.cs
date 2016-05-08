@@ -10,24 +10,24 @@ namespace Klasyfikacja_Danych.Classes
     {
         public static int CalculateKNN(myVector V, List<DataClass> Classes, int k)
         {
-            int minDistance = int.MaxValue;
-            int distance = 0;
-            List<List<int>> distances = new List<List<int>>();
+          //  int minDistance = int.MaxValue;
+            double distance = 0;
+            List<List<double>> distances = new List<List<double>>();
             foreach(DataClass C in Classes) 
             {
                 List<myVector> Vectors = C.GetVectors();
-                List<int> classDistance = new List<int>();
+                List<double> classDistance = new List<double>();
 
                 foreach (myVector vector in Vectors)
                 {
                  
-                    distance = HammingDistance(V, vector);
+                    distance = CosineDistance(V, vector);
                     classDistance.Add(distance);
                 }
                 distances.Add(classDistance);
             }
             List<Neighbour> kNearest = new List<Neighbour>(k);
-            foreach(List<int > cd in distances)
+            foreach(List<double> cd in distances)
             {
                 foreach(int d in cd)
                 {
@@ -62,31 +62,76 @@ namespace Klasyfikacja_Danych.Classes
         }
 
 
-        public static List<DataClass> CreateTrainingSet(List<DataClass> Classes, BagOfWords BoW, int k)
+        //public static List<DataClass> CreateTrainingSet(List<DataClass> Classes, BagOfWords BoW, int k)
+        //{
+        //    List<myVector> Articles = BoW.GetVectorsList();
+        //    Random rand = new Random();
+
+        //    foreach (myVector V in Articles)
+        //    {             
+        //        List<int> article = V.GetVector();
+        //        string name = V.GetVectorName();
+        //        foreach (DataClass C in Classes)
+        //        {
+        //            if (C.GetVectors().Count < k)
+        //            {
+        //                if (name.Contains(C.GetName()))
+        //                {
+        //                    C.AddVector(V);
+        //                }
+        //            }
+        //        }
+        //    }    
+        //    return Classes;
+        //}
+        public static List<DataClass> CreateFullSet(List<DataClass> Classes, BagOfWords BoW)
         {
             List<myVector> Articles = BoW.GetVectorsList();
             Random rand = new Random();
 
             foreach (myVector V in Articles)
-            {             
+            {
                 List<int> article = V.GetVector();
                 string name = V.GetVectorName();
                 foreach (DataClass C in Classes)
                 {
-                    if (C.GetVectors().Count < k)
-                    {
                         if (name.Contains(C.GetName()))
                         {
                             C.AddVector(V);
                         }
-                    }
                 }
-            }    
+            }
             return Classes;
         }
+        public static  TestClass CreateTest(List<DataClass> TrainingSet)
+        {
+           // List<DataClass> TrainingSet = new List<DataClass>();
+            List<myVector> TestSet = new List<myVector>();
 
-       
-       public static int HammingDistance(myVector a, myVector b)
+            Random r = new Random();
+            List<int> indices = new List<int>();
+            foreach(DataClass C in TrainingSet)
+            {
+                List<myVector> vectors = C.GetVectors();
+                int random = r.Next(0, vectors.Count);
+                indices.Add(random);
+            }
+            for(int i=0; i<indices.Count; i++)
+            {
+                List < myVector > V = TrainingSet[i].GetVectors();
+                TestSet.Add(V[indices[i]]);
+                TrainingSet[i].GetVectors().RemoveAt(indices[i]);
+           
+            }
+            TestClass T = new TestClass(TrainingSet, TestSet);
+
+            return T;
+        }
+
+
+
+
+        public static double HammingDistance(myVector a, myVector b)
         {
             List<int> v1 = a.GetVector();
             List<int> v2 = b.GetVector();

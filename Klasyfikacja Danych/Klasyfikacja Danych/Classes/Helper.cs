@@ -23,14 +23,14 @@ namespace Klasyfikacja_Danych.Classes
         public static void CalculateTFIDF(BagOfWords bow)
         {
            
-            int j = 0; //current vector for TFIDF
+            int x = 0; //current vector for TFIDF
             var vectors = bow.GetVectorsList();
             List<List<double>> WholeTFIDF = new List<List<double>>();
 
-            while (j < vectors.Count())
+            while (x < vectors.Count())
             {
                 List<double> TFIDF = new List<double>();
-                var v = vectors[j].GetVector();
+                var v = vectors[x].GetVector();
                 int index = 0;
                 while (index < v.Count())
                 {
@@ -48,9 +48,34 @@ namespace Klasyfikacja_Danych.Classes
                     index++;
                 }
                 WholeTFIDF.Add(TFIDF); //adding whole list to list of lists.
-                j++;
+                x++;
             }
 
+            List<int> IndexesToRemove = new List<int>();
+
+                for(int j=0; j<WholeTFIDF[0].Count;j++)
+                {
+                    if(WholeTFIDF[0][j]==0)
+                    {
+                    IndexesToRemove.Add(j);
+                    }
+                }
+                foreach(List<double> wordIndexes in WholeTFIDF)
+            {
+           for(int i=0; i<IndexesToRemove.Count;i++)
+                {
+                    if(wordIndexes[IndexesToRemove[i]]!=0)
+                    {
+                        IndexesToRemove.RemoveAt(i);
+                    }
+                }
+            }
+            List<string> WordstoRemove = new List<string>();
+            for(int i=0; i<IndexesToRemove.Count;i++)
+            {
+               WordstoRemove.Add( bow.GetWordsList().ElementAt(i));
+            }
+            bow.RemoveWords(WordstoRemove);
         }
     }
 }

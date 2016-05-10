@@ -29,7 +29,7 @@ namespace Klasyfikacja_Danych.Classes
             List<Neighbour> kNearest = new List<Neighbour>(k);
             foreach(List<double> cd in distances)
             {
-                foreach(int d in cd)
+                foreach(double d in cd)
                 {
                  if(kNearest.Count<k)
                     {

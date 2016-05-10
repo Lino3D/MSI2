@@ -60,10 +60,10 @@ namespace Klasyfikacja_Danych.Classes
     }
     public class Neighbour
     {
-        private int distance;
+        private double distance;
         private int id;
 
-        public int Distance
+        public double Distance
         {
             get { return distance; }
             set { distance = value; }
@@ -73,7 +73,7 @@ namespace Klasyfikacja_Danych.Classes
             get { return id; }
             set { id = value; }
         }
-        public Neighbour(int a, int b)
+        public Neighbour(double a, int b)
         {
             distance = a;
             id = b;
@@ -82,8 +82,8 @@ namespace Klasyfikacja_Danych.Classes
     }
     public class TestClass
     {
-        public List<DataClass> traininglist = new List<DataClass>();
-       public List<myVector> testlist = new List<myVector>();
+        private List<DataClass> traininglist = new List<DataClass>();
+       private List<myVector> testlist = new List<myVector>();
 
     
 
@@ -97,6 +97,15 @@ namespace Klasyfikacja_Danych.Classes
             traininglist = c;
             testlist = V;
         }
+        public List<DataClass> GetTrainingClasses()
+        {
+            return traininglist;
+        }
+        public List<myVector> GetTestVectors()
+        {
+            return testlist;
+        }
+
     }
 
 

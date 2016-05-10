@@ -76,7 +76,6 @@ namespace Klasyfikacja_Danych.Classes
                WordstoRemove.Add( bow.GetWordsList().ElementAt(i));
             }
             bow.RemoveWords(WordstoRemove);
-            bow.Adjust
         }
     }
 }

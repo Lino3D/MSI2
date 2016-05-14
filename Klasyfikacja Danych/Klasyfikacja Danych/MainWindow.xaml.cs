@@ -110,6 +110,9 @@ namespace Klasyfikacja_Danych
             }
             String classname = classes[id].GetName();
 
+            kNN.TestResults(T);
+
+
             //   int id = kNN.CalculateKNN(v, classes, 3);
             // String classname = classes[id].GetName();
             // MessageBox.Show(classname);

@@ -129,6 +129,29 @@ namespace Klasyfikacja_Danych.Classes
         }
 
 
+        public static void TestResults(TestClass Test)
+        {
+            List < DataClass > classes = Test.GetTrainingClasses();
+            List<myVector> incorrectVectors = new List<myVector>();
+            foreach(DataClass c in classes)
+            {
+                List<myVector> vectors = c.GetVectors();
+                foreach(myVector v in vectors)
+                {
+                    string name = v.GetVectorName();
+                    name = name.Remove(name.Length - 2);
+                    if(c.GetName()!=name)
+                    {
+                        incorrectVectors.Add(v);
+                    }
+                }
+            }
+            int Precision = (Test.GetTestVectors().Count - incorrectVectors.Count) / Test.GetTestVectors().Count;
+            int Recall = (Test.GetTestVectors().Count - incorrectVectors.Count) / Test.GetTestVectors().Count;
+
+
+        }
+
 
 
         public static double HammingDistance(myVector a, myVector b)

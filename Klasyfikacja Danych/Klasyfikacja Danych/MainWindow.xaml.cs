@@ -130,7 +130,7 @@ namespace Klasyfikacja_Danych
             List<myVector> vectors = T.GetTestVectors();
             foreach(myVector V in vectors)
             {
-              id=  kNN.CalculateKNN(V, classes, 3);
+              id=  kNN.CalculateKNN(V, classes, 5);
             }
             String classname = classes[id].GetName();
 

@@ -48,7 +48,7 @@ namespace Klasyfikacja_Danych.Classes
                     }
                 }
             }
-            int[] best = new int[Classes.Count];
+            int[] best = new int[k];
             for(int i=0; i<k; i++)
             { best[i] = 0; }
             foreach( Neighbour N in kNearest)

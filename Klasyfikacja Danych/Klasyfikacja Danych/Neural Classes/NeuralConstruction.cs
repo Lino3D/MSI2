@@ -31,7 +31,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             return N;
         }
 
-        public static Network CreateDefaultNetwork(int size, int CatSize)
+        public static Network CreateDefaultNetwork(int size, List<DataClass> Classes)
         {
             Random rand = new Random();
             Network Net = new Network();
@@ -41,15 +41,15 @@ namespace Klasyfikacja_Danych.Neural_Classes
             List<Neuron> OutputNeuronList = new List<Neuron>();
 
             for (int i = 0; i < size; i++)
-                NeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble()));
-
-            for (int i = 0; i < CatSize; i++)
-                OutputNeuronList.Add(new Neuron(-i - 1, 1, 1));
+                NeuronList.Add(new Neuron(i, 1,0));// (float)rand.NextDouble()));
+//
+            for (int i = 0; i < Classes.Count; i++)
+                OutputNeuronList.Add(new Neuron(i - 1, Classes[i].GetName()));
 
             foreach (var neuron in NeuronList)
             {
                 foreach (var outputNeuron in OutputNeuronList)
-                    neuron.connect(outputNeuron, (float)rand.NextDouble());
+                    neuron.connect(outputNeuron, 0);// (float)rand.NextDouble());
                 Net.addNeuron(neuron);
             }
 
@@ -58,9 +58,6 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return Net;
         }
-
-
-
         public static void NewSampleInput(myVector sampleInput, Network N)
         {
             var vector = sampleInput.GetVector();
@@ -85,6 +82,53 @@ namespace Klasyfikacja_Danych.Neural_Classes
                     N.getNetwork().ElementAt(j).Input += neuron.Input * neuron.GetWeights()[k];
                 }
             }
+        }
+
+        public static void SampleWeight(Network N, List<myVector> Vectors, List<DataClass> Classes)
+        {
+            double sum = 0;
+            int index;
+            List<double> weights = new List<double>();
+
+            //          Vectors.First().
+            for (int i = 0; i < Classes.Count; i++)
+                weights.Add(0);
+            for (int i = 0; i < Vectors.First().GetVector().Count; i++)
+            {
+                sum = 0;
+                for (int j = 0; j < weights.Count; j++)
+                    weights[j] = 0;
+
+                    for (int j = 0; j < Vectors.Count; j++)
+                    {
+                        index = Classes.IndexOf( Classes.Where(o => o.GetName().Contains(Vectors[j].GetVectorName().Substring(0, 5))).First());
+                        weights[index] += Vectors[j].GetVector()[i];
+                    }
+                foreach (var elem in weights)
+                    sum += elem;
+
+                for( int k = 0; k < weights.Count; k++)
+                {
+                    N.getNetwork()[i].GetWeights()[k] = (float) (weights[k] / sum);
+                }
+
+
+            }
+        }
+
+        private static List<string> ZnajdzKategorie(List<myVector> lst)
+        {
+            List<string> kat = new List<string>();
+
+            foreach( var item in lst)
+            {
+                if (!kat.Contains(item.GetVectorName().Substring(0, 5)))
+                    kat.Add(item.GetVectorName().Substring(0, 5));
+            }
+
+            return kat;
+
+
         }
 
         public static void sampleInput(myVector sampleInput, Network N)

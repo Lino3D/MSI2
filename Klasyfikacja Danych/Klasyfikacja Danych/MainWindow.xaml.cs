@@ -34,28 +34,24 @@ namespace Klasyfikacja_Danych
         public MainWindow()
         {
             InitializeComponent();
-            
+
             Refresh();
             InitializeNetwork();
         }
 
         public void InitializeNetwork()
         {
-          //  NeuralNetwork = NeuralConstruction.SampleNetwork();
-          //  doSomeShit();
-            myVector V = bow.GetVectorsList()[0];
-            NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count,4);
+            //  NeuralNetwork = NeuralConstruction.SampleNetwork();
+            //  doSomeShit();
+            myVector V = bow.GetVectorsList()[13];
+            classes = DataClass.CreateDataClasses(bow);
+            NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count, classes);
+            NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
 
-          
-            NeuralConstruction.NewSampleInput(V,NeuralNetwork);
 
+            NeuralConstruction.NewSampleInput(V, NeuralNetwork);
         }
-        public void doSomeShit()
-        {
-            myVector V = bow.GetVectorsList()[0];
-            NeuralConstruction.sampleInput(V, NeuralNetwork);
 
-        }
 
 
 
@@ -117,20 +113,20 @@ namespace Klasyfikacja_Danych
 
         private void _Start_Click(object sender, RoutedEventArgs e)
         {
-       
-    //Helper.CalculateTFIDF(bow);
+
+            //Helper.CalculateTFIDF(bow);
 
             classes = DataClass.CreateDataClasses(bow);
             classes = kNN.CreateFullSet(classes, bow);
 
-          
-            
+
+
             TestClass T = kNN.CreateTest(classes);
             int id = 0;
             List<myVector> vectors = T.GetTestVectors();
-            foreach(myVector V in vectors)
+            foreach (myVector V in vectors)
             {
-              id=  kNN.CalculateKNN(V, classes, 3);
+                id = kNN.CalculateKNN(V, classes, 3);
             }
             String classname = classes[id].GetName();
 

@@ -44,7 +44,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
                 NeuronList.Add(new Neuron(i, 1,0));// (float)rand.NextDouble()));
 //
             for (int i = 0; i < Classes.Count; i++)
-                OutputNeuronList.Add(new Neuron(i - 1, Classes[i].GetName()));
+                OutputNeuronList.Add(new Neuron( -i - 1, Classes[i].GetName()));
 
             foreach (var neuron in NeuronList)
             {
@@ -58,10 +58,10 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return Net;
         }
-        public static void NewSampleInput(myVector sampleInput, Network N)
+        public static int NewSampleInput(myVector sampleInput, Network N)
         {
             var vector = sampleInput.GetVector();
-
+            int id = 0;
             // Pierwsza iteracja
             for (int i = 0; i < vector.Count; i++)
             {
@@ -82,6 +82,22 @@ namespace Klasyfikacja_Danych.Neural_Classes
                     N.getNetwork().ElementAt(j).Input += neuron.Input * neuron.GetWeights()[k];
                 }
             }
+            int connectionCount = N.getNetwork()[0].GetConnections().Count();
+
+            double max = 0;
+            for(int i=vector.Count; i< vector.Count + connectionCount; i++)
+            {
+                var neuron = N.getNetwork().ElementAt(i);
+                if (neuron.Input > max)
+                {
+                    max = neuron.Input;
+                    id = (-neuron.ID) -1;
+                }
+            }
+
+
+
+            return id;
         }
 
         public static void SampleWeight(Network N, List<myVector> Vectors, List<DataClass> Classes)

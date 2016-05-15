@@ -96,6 +96,7 @@
     <Compile Include="Classes\kNN.cs" />
     <Compile Include="Classes\PDF reader.cs" />
     <Compile Include="Classes\ReadArticles.cs" />
+    <Compile Include="Classes\TestResult.cs" />
     <Compile Include="DialogResult.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -34,17 +34,26 @@ namespace Klasyfikacja_Danych
         public MainWindow()
         {
             InitializeComponent();
-            InitializeNetwork();
+            
             Refresh();
+            InitializeNetwork();
         }
 
         public void InitializeNetwork()
         {
-            NeuralNetwork = NeuralConstruction.SampleNetwork();
+          //  NeuralNetwork = NeuralConstruction.SampleNetwork();
+          //  doSomeShit();
+            myVector V = bow.GetVectorsList()[0];
+            NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count,4);
+
+          
+            NeuralConstruction.NewSampleInput(V,NeuralNetwork);
+
         }
         public void doSomeShit()
         {
             myVector V = bow.GetVectorsList()[0];
+            NeuralConstruction.sampleInput(V, NeuralNetwork);
 
         }
 

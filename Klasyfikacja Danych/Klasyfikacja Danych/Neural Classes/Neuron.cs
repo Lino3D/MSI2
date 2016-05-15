@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace Klasyfikacja_Danych.Neural_Classes
 {
-   public class Neuron
+    public class Neuron
     {
         private int id;
         private float threshold;
         private List<Neuron> connections = new List<Neuron>();
+        private List<float> weights = new List<float>();
+        // useless parameter
         private float weight;
-        private float bias =1;
-        private myVector input = null;
+        private float bias = 1;
+        private float input;
 
 
         public int ID
@@ -23,7 +25,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             set { id = value; }
         }
 
-        public myVector Input
+        public float Input
         {
             get { return input; }
             set { input = value; }
@@ -45,36 +47,47 @@ namespace Klasyfikacja_Danych.Neural_Classes
             id = a;
             threshold = 0;
             weight = 1;
-           // connections = null;
+            // connections = null;
         }
         public Neuron(int a, float b)
         {
             id = a;
-            threshold =b;
+            threshold = b;
             weight = 1;
-          //  connections = null;
+            //  connections = null;
         }
         public Neuron(int a, float b, float c)
         {
             id = a;
             threshold = b;
             weight = c;
-           // connections = null;
+            // connections = null;
         }
 
-        public void connect(params Neuron[] neurons)
-        {
-            foreach(Neuron n in neurons)
-            {
-                connections.Add(n);
-            }
 
-       
+        public void connect(Neuron neuron, float weight)
+        {
+            connections.Add(neuron);
+            weights.Add(weight);
+        }
+        public void connect(params KeyValuePair<Neuron, float>[] neurons)
+        {
+            foreach (var n in neurons)
+            {
+                connections.Add(n.Key);
+                weights.Add(n.Value);
+            }
         }
         public List<Neuron> GetConnections()
         {
             return connections;
         }
+
+        public List<float> GetWeights()
+        {
+            return weights;
+        }
+
 
     }
     public class Network
@@ -98,7 +111,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             return Neurons;
         }
 
-    
+
 
     }
 }

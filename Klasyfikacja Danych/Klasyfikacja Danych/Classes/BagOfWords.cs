@@ -136,11 +136,18 @@ namespace Klasyfikacja_Danych.Classes
         }
 
     }
-
+    
     public class myVector
     {
         List<double> vector = new List<double>();
         string Name;
+
+        public myVector(int n)
+        {
+            vector = new List<double>();
+            for (int i = 0; i < n; i++)
+                vector.Add(0);
+        }
 
         public myVector(List<string> BoWWords, List<string> words, string name, List<string> StopWords)
         {
@@ -157,6 +164,7 @@ namespace Klasyfikacja_Danych.Classes
             }
             Name = name;
         }
+        
 
         public List<double> GetVector()
         {

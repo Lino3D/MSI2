@@ -11,6 +11,9 @@ namespace Klasyfikacja_Danych.Neural_Classes
         private int id;
         private float threshold;
         private List<Neuron> connections = new List<Neuron>();
+        private float weight;
+        private float bias =1;
+
 
         public int ID
         {
@@ -22,16 +25,31 @@ namespace Klasyfikacja_Danych.Neural_Classes
             get { return threshold; }
             set { threshold = value; }
         }
+        public float Weight
+        {
+            get { return weight; }
+            set { weight = value; }
+        }
+
         public Neuron(int a)
         {
             id = a;
             threshold = 0;
+            weight = 1;
             connections = null;
         }
         public Neuron(int a, float b)
         {
             id = a;
             threshold =b;
+            weight = 1;
+            connections = null;
+        }
+        public Neuron(int a, float b, float c)
+        {
+            id = a;
+            threshold = b;
+            weight = c;
             connections = null;
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Klasyfikacja_Danych.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,31 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return N;
         }
+        public static void sampleInput(myVector sampleInput, Network N)
+        {
+            List<Neuron> neurons = N.getNetwork();
+
+            Neuron inputNeuron = neurons[0];
+
+            inputNeuron.Input = sampleInput;
+      
+
+            foreach(Neuron n in inputNeuron.GetConnections())
+            {
+                var tmp = inputNeuron.Input;
+
+                foreach(double x in tmp.GetVector())
+                {
+                    var y = x;
+                    y = x * n.Weight;
+                //    myVector V = new myVector();
+
+
+                }
+               // n.Input = inputNeuron.Input * (double)n.Weight;
+            }
+        }
+
 
 
 

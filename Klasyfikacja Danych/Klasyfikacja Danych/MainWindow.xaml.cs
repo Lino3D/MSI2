@@ -42,7 +42,11 @@ namespace Klasyfikacja_Danych
         {
             NeuralNetwork = NeuralConstruction.SampleNetwork();
         }
+        public void doSomeShit()
+        {
+            myVector V = bow.GetVectorsList()[0];
 
+        }
 
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Klasyfikacja_Danych.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
         private List<Neuron> connections = new List<Neuron>();
         private float weight;
         private float bias =1;
+        private myVector input = null;
 
 
         public int ID
@@ -20,6 +22,13 @@ namespace Klasyfikacja_Danych.Neural_Classes
             get { return id; }
             set { id = value; }
         }
+
+        public myVector Input
+        {
+            get { return input; }
+            set { input = value; }
+        }
+
         public float Treshhold
         {
             get { return threshold; }

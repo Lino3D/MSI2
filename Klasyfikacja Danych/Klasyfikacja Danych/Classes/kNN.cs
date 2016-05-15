@@ -62,28 +62,7 @@ namespace Klasyfikacja_Danych.Classes
         }
 
 
-        //public static List<DataClass> CreateTrainingSet(List<DataClass> Classes, BagOfWords BoW, int k)
-        //{
-        //    List<myVector> Articles = BoW.GetVectorsList();
-        //    Random rand = new Random();
 
-        //    foreach (myVector V in Articles)
-        //    {             
-        //        List<int> article = V.GetVector();
-        //        string name = V.GetVectorName();
-        //        foreach (DataClass C in Classes)
-        //        {
-        //            if (C.GetVectors().Count < k)
-        //            {
-        //                if (name.Contains(C.GetName()))
-        //                {
-        //                    C.AddVector(V);
-        //                }
-        //            }
-        //        }
-        //    }    
-        //    return Classes;
-        //}
         public static List<DataClass> CreateFullSet(List<DataClass> Classes, BagOfWords BoW)
         {
             List<myVector> Articles = BoW.GetVectorsList();
@@ -91,7 +70,7 @@ namespace Klasyfikacja_Danych.Classes
 
             foreach (myVector V in Articles)
             {
-                List<int> article = V.GetVector();
+                List<double> article = V.GetVector();
                 string name = V.GetVectorName();
                 foreach (DataClass C in Classes)
                 {
@@ -156,8 +135,8 @@ namespace Klasyfikacja_Danych.Classes
 
         public static double HammingDistance(myVector a, myVector b)
         {
-            List<int> v1 = a.GetVector();
-            List<int> v2 = b.GetVector();
+            List<double> v1 = a.GetVector();
+            List<double> v2 = b.GetVector();
 
             int Distance = 0;
             if(v1.Count != v2.Count)
@@ -177,9 +156,8 @@ namespace Klasyfikacja_Danych.Classes
         public static double CosineDistance(myVector a, myVector  b)
             {
 
-            List<int> v1 = a.GetVector();
-            List<int> v2 = b.GetVector();
-
+            List<double> v1 = a.GetVector();
+            List<double> v2 = b.GetVector();
             double Distance = 0;
 
             if (v1.Count != v2.Count)

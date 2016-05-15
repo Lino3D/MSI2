@@ -139,7 +139,7 @@ namespace Klasyfikacja_Danych.Classes
 
     public class myVector
     {
-        List<int> vector = new List<int>();
+        List<double> vector = new List<double>();
         string Name;
 
         public myVector(List<string> BoWWords, List<string> words, string name, List<string> StopWords)
@@ -158,7 +158,7 @@ namespace Klasyfikacja_Danych.Classes
             Name = name;
         }
 
-        public List<int> GetVector()
+        public List<double> GetVector()
         {
             return vector;
         }

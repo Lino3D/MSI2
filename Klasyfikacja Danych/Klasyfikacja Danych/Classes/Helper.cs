@@ -35,10 +35,10 @@ namespace Klasyfikacja_Danych.Classes
                 while (index < v.Count())
                 {
                     int count = 0;
-                    int TF = v[index]; //Term frequency is stored in Bag of Word
+                    double TF = v[index]; //Term frequency is stored in Bag of Word
                     foreach (var vector in vectors)
                     {
-                        List<int> V = vector.GetVector();           
+                        List<double> V = vector.GetVector();           
                         if (V[index] > 0)
                             count++;
 

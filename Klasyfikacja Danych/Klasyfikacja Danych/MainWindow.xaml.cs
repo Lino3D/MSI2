@@ -1,6 +1,7 @@
 ﻿using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using Klasyfikacja_Danych.Classes;
+using Klasyfikacja_Danych.Neural_Classes;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -29,11 +30,21 @@ namespace Klasyfikacja_Danych
         ReadArticles ra = new ReadArticles();
         StringBuilder text = new StringBuilder();
         List<DataClass> classes = new List<DataClass>();
+        Network NeuralNetwork = new Network();
         public MainWindow()
         {
             InitializeComponent();
+            InitializeNetwork();
             Refresh();
         }
+
+        public void InitializeNetwork()
+        {
+            NeuralNetwork = NeuralConstruction.SampleNetwork();
+        }
+
+
+
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {

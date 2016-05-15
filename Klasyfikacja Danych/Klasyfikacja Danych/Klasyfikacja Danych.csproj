@@ -107,6 +107,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Neural Classes\NeuralConstruction.cs" />
     <Compile Include="Neural Classes\Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -36,26 +36,31 @@ namespace Klasyfikacja_Danych.Neural_Classes
             id = a;
             threshold = 0;
             weight = 1;
-            connections = null;
+           // connections = null;
         }
         public Neuron(int a, float b)
         {
             id = a;
             threshold =b;
             weight = 1;
-            connections = null;
+          //  connections = null;
         }
         public Neuron(int a, float b, float c)
         {
             id = a;
             threshold = b;
             weight = c;
-            connections = null;
+           // connections = null;
         }
 
-        public void connect(Neuron b)
+        public void connect(params Neuron[] neurons)
         {
-            connections.Add(b);
+            foreach(Neuron n in neurons)
+            {
+                connections.Add(n);
+            }
+
+       
         }
         public List<Neuron> GetConnections()
         {
@@ -72,14 +77,19 @@ namespace Klasyfikacja_Danych.Neural_Classes
             get { return id; }
             set { id = value; }
         }
-        public void addNeuron(Neuron a)
+        public void addNeuron(params Neuron[] neurons)
         {
-            Neurons.Add(a);
+            foreach (Neuron n in neurons)
+            {
+                Neurons.Add(n);
+            }
         }
         public List<Neuron> getNetwork()
         {
             return Neurons;
         }
+
+    
 
     }
 }

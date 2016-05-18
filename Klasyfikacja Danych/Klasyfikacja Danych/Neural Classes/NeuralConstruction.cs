@@ -62,6 +62,11 @@ namespace Klasyfikacja_Danych.Neural_Classes
         {
             var vector = sampleInput.GetVector();
             int id = 0;
+            // Zerujemy inputy
+            foreach( var neuron in N.getNetwork())
+                neuron.Input = 0;
+
+
             // Pierwsza iteracja
             for (int i = 0; i < vector.Count; i++)
             {

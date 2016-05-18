@@ -134,7 +134,7 @@ namespace Klasyfikacja_Danych
             List<int> kNNResultsIds = new List<int>();
             List<int> NNResultsIds = new List<int>();
 
-
+            // Liczymy
             foreach (myVector V in vectors)
             {
                 int id = 0;
@@ -146,13 +146,14 @@ namespace Klasyfikacja_Danych
             //  String classname = classes[id].GetName();
 
 
-
+           // Dodajemy wyniki dla KNN
            for(int i=0; i<kNNResultsIds.Count; i++)
             {
                 TestResult testresult = new TestResult("kNNAlgorithm");
                 testresult.filltestData(classes, kNNResultsIds[i], vectors[i]);
                 kNNResults.Add(testresult);
             }
+            // Dodajemy wyniki dla sieci neuronowej
             for (int i = 0; i < NNResultsIds.Count; i++)
             {
                 TestResult testresult = new TestResult("kNNAlgorithm");

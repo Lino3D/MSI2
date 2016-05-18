@@ -56,7 +56,7 @@ namespace Klasyfikacja_Danych.Classes
                 best[N.Id]++;
             }
             int bestOption = best.ToList().IndexOf(best.Max());
-            Classes[bestOption].AddVector(V);
+     //       Classes[bestOption].AddVector(V);
 
         return bestOption;
         }

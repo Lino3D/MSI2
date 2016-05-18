@@ -126,7 +126,6 @@ namespace Klasyfikacja_Danych
       
             List<myVector> vectors = T.GetTestVectors();
 
-            classes = DataClass.CreateDataClasses(bow);
             NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
 
             NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
@@ -138,7 +137,7 @@ namespace Klasyfikacja_Danych
             foreach (myVector V in vectors)
             {
                 int id = 0;
-                id = kNN.CalculateKNN(V, classes, 3);
+                id = kNN.CalculateKNN(V, classes, 2);
                 kNNResultsIds.Add(id);
                 id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
                 NNResultsIds.Add(id);

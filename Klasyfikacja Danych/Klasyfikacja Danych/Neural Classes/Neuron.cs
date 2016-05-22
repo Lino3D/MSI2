@@ -28,6 +28,12 @@ namespace Klasyfikacja_Danych.Neural_Classes
             set { id = value; }
         }
 
+        public int type
+        {
+            get { return Type; }
+            set { Type = value; }
+        }
+
         public float Input
         {
             get { return input; }

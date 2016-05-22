@@ -10,11 +10,13 @@ namespace Klasyfikacja_Danych.Classes
     {
         List<myVector> Vectors = new List<myVector>();
         string ClassName;
+        int id;
 
         public DataClass(myVector x, string y)
         {
             Vectors.Add(x);
             ClassName = y;
+            AssignId();
         }
         public DataClass(List<myVector> x, string y)
         {
@@ -23,10 +25,16 @@ namespace Klasyfikacja_Danych.Classes
                 Vectors.Add(V);
             }
             ClassName = y;
+            AssignId();
+        }
+        public int GetID()
+        {
+            return id;
         }
         public DataClass(string x)
         {
             ClassName = x;
+            AssignId();
         }
         public string GetName()
         {
@@ -38,7 +46,26 @@ namespace Klasyfikacja_Danych.Classes
         }
         public void AddVector(myVector V)
         {
-            Vectors.Add(V);
+            Vectors.Add(V);            
+        }
+
+        private void AssignId()
+        {
+            switch (ClassName)
+            {
+                case "Kulinaria":
+                    id = 0;
+                    break;
+                case "Motoryzacja":
+                    id = 1;
+                    break;
+                case "Zoologia":
+                    id = 2;
+                    break;
+                case "Technologia":
+                    id = 3;
+                    break;
+            }
         }
         public static List<DataClass> CreateDataClasses(BagOfWords BoW )
         {

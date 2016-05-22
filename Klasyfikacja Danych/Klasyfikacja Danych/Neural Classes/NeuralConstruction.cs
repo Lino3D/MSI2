@@ -9,27 +9,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
 {
     public static class NeuralConstruction
     {
-        public static Network SampleNetwork()
-        {
-            Random rand = new Random();
-            Neuron a = new Neuron(0, 1, 1);
-            Neuron b = new Neuron(1, 1, (float)(rand.NextDouble() * 2) - 1);
-            Neuron c = new Neuron(2, 1, (float)(rand.NextDouble() * 2) - 1);
-            Neuron d = new Neuron(3, 1, (float)(rand.NextDouble() * 2) - 1);
-            Neuron e = new Neuron(4, 1, (float)(rand.NextDouble() * 2) - 1);
-            Neuron f = new Neuron(5, 1, (float)(rand.NextDouble() * 2) - 1);
-
-
-            //a.connect(b,c,d,e);
-            //b.connect(f);
-            //c.connect(f);
-            //d.connect(f);
-            //e.connect(f);
-            Network N = new Network();
-            N.addNeuron(a, b, c, d, e, f);
-
-            return N;
-        }
+        #region NetworkWithoutHiddenLayer
         public static Network CreateDefaultNetwork(int size, List<DataClass> Classes)
         {
             Random rand = new Random();
@@ -56,177 +36,6 @@ namespace Klasyfikacja_Danych.Neural_Classes
                 Net.addNeuron(neuron);
 
             return Net;
-        }
-        public static Network CreateNewDefaultNetwork(int size, List<DataClass> Classes, int k)
-        {
-            Random rand = new Random();
-            Network Net = new Network();
-
-            List<Neuron> InputNeuronList = new List<Neuron>();
-
-            List<Neuron> HiddenNeuronList = new List<Neuron>();
-
-            List<Neuron> OutputNeuronList = new List<Neuron>();
-
-            for (int i = 0; i < size; i++)
-                InputNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(), 0));// (float)rand.NextDouble()));
-            //
-            for (int i = 0; i < Classes.Count; i++)
-                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName(), 2));
-
-            for (int i = 0; i < k; i++)
-                HiddenNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(), 1));
-
-            int j = 0;
-            //connect input and hidden
-            foreach (var inputNeuron in InputNeuronList)
-            {
-
-                foreach (var hiddenNeuron in HiddenNeuronList)
-                {
-                    inputNeuron.Connect(j, hiddenNeuron, (float)rand.NextDouble());
-                    j++;
-                }
-            }
-            //connect hidden with output;
-            foreach (var hiddenNeuron in HiddenNeuronList)
-            {
-
-                foreach (var outputNeuron in OutputNeuronList)
-                {
-                    hiddenNeuron.Connect(j, outputNeuron, (float)rand.NextDouble());
-                    j++;
-                }
-            }
-            foreach (var neuron in InputNeuronList)
-                Net.addNeuron(neuron);
-
-            foreach (var neuron in HiddenNeuronList)
-                Net.addNeuron(neuron);
-
-            foreach (var neuron in OutputNeuronList)
-                Net.addNeuron(neuron);
-
-            return Net;
-        }
-
-        public static int SampleInput(myVector sampleInput, Network N)
-        {
-
-
-            float sum;
-            float Error = 0;
-            int foundID = -35;
-            int correctID = 25;
-            int Counter = 0;
-
-            var WordsList = sampleInput.GetVector();
-            var InputLayer = N.getNetwork().Where(o => o.type == 0).ToList();
-         
-
-            var HiddenLayer = N.getNetwork().Where(o => o.type == 1).ToList();
-            var OutputLayer = N.getNetwork().Where(o => o.type == 2).ToList();
-
-
-            while (foundID!=correctID && Counter <20)
-            {
-                sum = 0;
-            N = ClearInputs(N);
-
-            // Pierwsza iteracja
-           
-            for (int i = 0; i < sampleInput.GetVector().Count; i++)
-            {
-                InputLayer[i].Input = (float)WordsList[i];
-            }
-
-            // Druga iteracja
-
-            CalculateInput(InputLayer);
-
-            // Trzecia iteracja
-           
-            CalculateInput(HiddenLayer);
-
-             foundID = -OutputLayer.OrderBy(o => o.Input).FirstOrDefault().ID - 1;
-             correctID = -CorrectId(sampleInput, OutputLayer) - 1;
-
-
-            sum = SumInputs(OutputLayer, sum);
-             Error = (OutputLayer[correctID].Input - OutputLayer[foundID].Input) / sum;
-                if (foundID != correctID)
-                {
-                    AdjustWeights(HiddenLayer, Error);
-                    AdjustWeights(InputLayer, Error);
-                }
-                Counter++;
-            }
-
-
-
-            return foundID;
-        }
-
-        private static void AdjustWeights(List<Neuron> Layer, float error)
-        {
-            foreach (var neuron in Layer)
-            {
-                foreach (var connection in neuron.GetConnections())
-                {
-                    connection.Weight = connection.Weight * error;
-                }
-            }
-        }
-
-
-        private static float SumInputs(List<Neuron> OutputLayer, float sum)
-        {
-            foreach (Neuron n in OutputLayer)
-            {
-                sum += n.Input;
-            }
-
-            return sum;
-        }
-
-        private static int CorrectId(myVector sample, List<Neuron> outputlayer)
-        {
-            int correctID = 0;
-            string correctclassName = sample.GetVectorName();
-            correctclassName = correctclassName.Remove(correctclassName.Length - 2);
-            foreach (Neuron n in outputlayer)
-            {
-                if (n.Category == correctclassName)
-                    correctID = n.ID;
-            }
-            return correctID;
-
-
-        }
-
-        private static void CheckResult(int CorrectID, int ReturnedId)
-        {
-
-        }
-
-
-        private static void CalculateInput(List<Neuron> Layer)
-        {
-            foreach (var neuron in Layer)
-            {
-                foreach (var connection in neuron.GetConnections())
-                {
-                    connection.To.Input += connection.From.Input * connection.Weight;
-                }
-            }
-        }
-        private static Network ClearInputs(Network net)
-        {
-            foreach (var neuron in net.getNetwork())
-            {
-                neuron.Input = 0;
-            }
-            return net;
         }
 
         public static int OldSampleInput(myVector sampleInput, Network N)
@@ -308,24 +117,184 @@ namespace Klasyfikacja_Danych.Neural_Classes
             }
         }
 
-        private static List<string> ZnajdzKategorie(List<myVector> lst)
-        {
-            List<string> kat = new List<string>();
+        #endregion
 
-            foreach (var item in lst)
+
+        public static Network CreateNewDefaultNetwork(int size, List<DataClass> Classes, int k)
+        {
+            Random rand = new Random();
+            Network Net = new Network();
+
+            List<Neuron> InputNeuronList = new List<Neuron>();
+
+            List<Neuron> HiddenNeuronList = new List<Neuron>();
+
+            List<Neuron> OutputNeuronList = new List<Neuron>();
+
+            for (int i = 0; i < size; i++)
+                InputNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(), 0));// (float)rand.NextDouble()));
+            //
+            for (int i = 0; i < Classes.Count; i++)
+                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName(), 2));
+
+            for (int i = 0; i < k; i++)
+                HiddenNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(), 1));
+
+            int j = 0;
+            //connect input and hidden
+            foreach (var inputNeuron in InputNeuronList)
             {
-                if (!kat.Contains(item.GetVectorName().Substring(0, 5)))
-                    kat.Add(item.GetVectorName().Substring(0, 5));
+
+                foreach (var hiddenNeuron in HiddenNeuronList)
+                {
+                    inputNeuron.Connect(j, hiddenNeuron, (float)rand.NextDouble());
+                    j++;
+                }
+            }
+            //connect hidden with output;
+            foreach (var hiddenNeuron in HiddenNeuronList)
+            {
+
+                foreach (var outputNeuron in OutputNeuronList)
+                {
+                    hiddenNeuron.Connect(j, outputNeuron, (float)rand.NextDouble());
+                    j++;
+                }
+            }
+            foreach (var neuron in InputNeuronList)
+                Net.addNeuron(neuron);
+
+            foreach (var neuron in HiddenNeuronList)
+                Net.addNeuron(neuron);
+
+            foreach (var neuron in OutputNeuronList)
+                Net.addNeuron(neuron);
+
+            return Net;
+        }
+
+        public static int SampleInput(myVector sampleInput, Network N)
+        {
+            float sum;
+            float Error = 0;
+            int foundID = -35;
+            int correctID = 25;
+            int Counter = 0;
+
+            //float NormalizationCoef = 1 / sampleInput.GetVector().Count;
+            float NormalizationCoef = 1.0f / 500.0f;
+            var WordsList = sampleInput.GetVector();
+            var InputLayer = N.getNetwork().Where(o => o.type == 0).ToList();
+
+
+            var HiddenLayer = N.getNetwork().Where(o => o.type == 1).ToList();
+            var OutputLayer = N.getNetwork().Where(o => o.type == 2).ToList();
+
+
+            //while (foundID != correctID && Counter < 20)
+            //{
+            //    sum = 0;
+            //    N = ClearInputs(N);
+
+            // Pierwsza iteracja           
+            for (int i = 0; i < sampleInput.GetVector().Count; i++)
+                InputLayer[i].Input = (float)WordsList[i];
+
+            // Druga iteracja
+            CalculateInput(InputLayer);
+            SigmoidFunction(HiddenLayer, NormalizationCoef);
+
+            // Trzecia iteracja           
+            CalculateInput(HiddenLayer);
+            SigmoidFunction(OutputLayer, NormalizationCoef);
+
+            // Liczenie wyniku
+            foundID = -OutputLayer.OrderBy(o => o.Input).FirstOrDefault().ID - 1;
+            //     correctID = -CorrectId(sampleInput, OutputLayer) - 1;
+            //
+            //    // Dopasowywanie wag
+            //    sum = SumInputs(OutputLayer, sum);
+            //    Error = (OutputLayer[correctID].Input - OutputLayer[foundID].Input) / sum;
+            //    if (foundID != correctID)
+            //    {
+            //        AdjustWeights(HiddenLayer, Error);
+            //        AdjustWeights(InputLayer, Error);
+            //    }
+            //    Counter++;
+            //}
+
+
+
+            return foundID;
+        }
+        private static void AdjustWeights(List<Neuron> Layer, float error)
+        {
+            foreach (var neuron in Layer)
+            {
+                foreach (var connection in neuron.GetConnections())
+                {
+                    connection.Weight = connection.Weight * error;
+                }
+            }
+        }
+        private static float SumInputs(List<Neuron> OutputLayer, float sum)
+        {
+            foreach (Neuron n in OutputLayer)
+            {
+                sum += n.Input;
             }
 
-            return kat;
+            return sum;
+        }
+        private static int CorrectId(myVector sample, List<Neuron> outputlayer)
+        {
+            int correctID = 0;
+            string correctclassName = sample.GetVectorName();
+            correctclassName = correctclassName.Remove(correctclassName.Length - 2);
+            foreach (Neuron n in outputlayer)
+            {
+                if (n.Category == correctclassName)
+                    correctID = n.ID;
+            }
+            return correctID;
 
+
+        }
+        private static void CheckResult(int CorrectID, int ReturnedId)
+        {
 
         }
 
 
 
 
+        private static void CalculateInput(List<Neuron> Layer)
+        {
+            foreach (var neuron in Layer)
+            {
+                foreach (var connection in neuron.GetConnections())
+                {
+                    connection.To.Input += connection.From.Input * connection.Weight;
+                }
+            }
+        }
+        private static Network ClearInputs(Network net)
+        {
+            foreach (var neuron in net.getNetwork())
+            {
+                neuron.Input = 0;
+            }
+            return net;
+        }
+        private static void SigmoidFunction(List<Neuron> Layer, float NormalizationCoef)
+        {
+            foreach (var neuron in Layer)
+            {
+                neuron.Input =  1 / (1 + (float)Math.Pow(Math.E, -(double)neuron.Input*NormalizationCoef));
+            }            
+        }
+
+        
 
     }
 }

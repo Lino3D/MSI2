@@ -31,33 +31,30 @@ namespace Klasyfikacja_Danych
         StringBuilder text = new StringBuilder();
         List<DataClass> classes = new List<DataClass>();
         Network NeuralNetwork = new Network();
+        Network WithoutHiddenLayerNetwork = new Network();
         List<TestResult> kNNResults = new List<TestResult>();
         List<TestResult> NNResults = new List<TestResult>();
+        List<TestResult> WHNNResults = new List<TestResult>();
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
             Refresh();
-           InitializeNetwork();
+            InitializeNetwork();
+            Console.Beep();
         }
 
         public void InitializeNetwork()
         {
- 
-      //      myVector V = bow.GetVectorsList()[0];
-      //      classes = DataClass.CreateDataClasses(bow);
-    //        NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count, classes);
+            classes = DataClass.CreateDataClasses(bow);
+            classes = kNN.CreateFullSet(classes, bow);
+            myVector x = bow.GetVectorsList()[0];
 
-     //       NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(V.GetVector().Count, classes, 6);
+            WithoutHiddenLayerNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
+            NeuralConstruction.SampleWeight(WithoutHiddenLayerNetwork, bow.GetVectorsList(), classes);
 
-      //      NeuralConstruction.SampleInput(V,NeuralNetwork);
-         //   NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
-        //    int id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
-            
+            NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 6);
         }
-
-
-
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -115,87 +112,19 @@ namespace Klasyfikacja_Danych
             window.ShowDialog();
         }
 
-        private void _Start_Click(object sender, RoutedEventArgs e)
-        {
-
-            //Helper.CalculateTFIDF(bow);
-
-            classes = DataClass.CreateDataClasses(bow);
-            classes = kNN.CreateFullSet(classes, bow);
-
-            myVector x = bow.GetVectorsList()[0];
-
-
-            TestClass T = kNN.CreateTest(classes);
-      
-            List<myVector> vectors = T.GetTestVectors();
-
-            NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
-
-            NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
-
-            List<int> kNNResultsIds = new List<int>();
-            List<int> NNResultsIds = new List<int>();
-
-            // Liczymy
-            foreach (myVector V in vectors)
-            {
-                int id = 0;
-                id = kNN.CalculateKNN(V, classes, 3);
-                kNNResultsIds.Add(id);
-                id = NeuralConstruction.OldSampleInput(V, NeuralNetwork);
-                NNResultsIds.Add(id);
-            }
-            //  String classname = classes[id].GetName();
-
-
-           // Dodajemy wyniki dla KNN
-           for(int i=0; i<kNNResultsIds.Count; i++)
-            {
-                TestResult testresult = new TestResult("kNNAlgorithm");
-                testresult.filltestData(classes, kNNResultsIds[i], vectors[i]);
-                kNNResults.Add(testresult);
-            }
-            // Dodajemy wyniki dla sieci neuronowej
-            for (int i = 0; i < NNResultsIds.Count; i++)
-            {
-                TestResult testresult = new TestResult("kNNAlgorithm");
-                testresult.filltestData(classes, NNResultsIds[i], vectors[i]);
-                NNResults.Add(testresult);
-            }
-            ListView1.ItemsSource = kNNResults;
-            ListView2.ItemsSource = NNResults;
-             kNN.TestResults(T);
-
-
-            //   int id = kNN.CalculateKNN(v, classes, 3);
-            // String classname = classes[id].GetName();
-            // MessageBox.Show(classname);
-
-        }
+        
 
         private void _Start_Copy_Click(object sender, RoutedEventArgs e)
         {
             //Helper.CalculateTFIDF(bow);
-
-            classes = DataClass.CreateDataClasses(bow);
-            classes = kNN.CreateFullSet(classes, bow);
-
             myVector x = bow.GetVectorsList()[0];
 
-
             TestClass T = kNN.CreateTest(classes);
-
-            List<myVector> vectors = T.GetTestVectors();
-
-           // NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
-
-          //  NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
-
-          NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 6);
+            List<myVector> vectors = T.GetTestVectors();           
 
             List<int> kNNResultsIds = new List<int>();
             List<int> NNResultsIds = new List<int>();
+            List<int> WHNNResultsIds = new List<int>();
 
             // Liczymy
             foreach (myVector V in vectors)
@@ -203,12 +132,11 @@ namespace Klasyfikacja_Danych
                 int id = 0;
                 id = kNN.CalculateKNN(V, classes, 3);
                 kNNResultsIds.Add(id);
-          //      id = NeuralConstruction.OldSampleInput(V, NeuralNetwork);
+                id = NeuralConstruction.OldSampleInput(V, WithoutHiddenLayerNetwork);
+                WHNNResultsIds.Add(id);
                 id = NeuralConstruction.SampleInput(V, NeuralNetwork);
                 NNResultsIds.Add(id);
             }
-            //  String classname = classes[id].GetName();
-
 
             // Dodajemy wyniki dla KNN
             for (int i = 0; i < kNNResultsIds.Count; i++)
@@ -220,12 +148,21 @@ namespace Klasyfikacja_Danych
             // Dodajemy wyniki dla sieci neuronowej
             for (int i = 0; i < NNResultsIds.Count; i++)
             {
-                TestResult testresult = new TestResult("kNNAlgorithm");
+                TestResult testresult = new TestResult("NNAlgorithm");
                 testresult.filltestData(classes, NNResultsIds[i], vectors[i]);
                 NNResults.Add(testresult);
             }
+            // Dodajemy wyniki dla sieci neuronowej bez warstwy ukrytej
+            for (int i = 0; i < WHNNResultsIds.Count; i++)
+            {
+                TestResult testresult = new TestResult("WHNNAlgorithm");
+                testresult.filltestData(classes, WHNNResultsIds[i], vectors[i]);
+                WHNNResults.Add(testresult);
+            }
             ListView1.ItemsSource = kNNResults;
             ListView2.ItemsSource = NNResults;
+            ListView3.ItemsSource = WHNNResults;
+
             kNN.TestResults(T);
 
 
@@ -233,5 +170,83 @@ namespace Klasyfikacja_Danych
             // String classname = classes[id].GetName();
             // MessageBox.Show(classname);
         }
+
+        private void UczenieSieci_Click(object sender, RoutedEventArgs e)
+        {
+            List<myVector> TrainingSet = new List<myVector>();
+            TrainingSet.Add(bow.GetVectorsList()[0]);
+            TrainingSet.Add(bow.GetVectorsList()[14]);
+            TrainingSet.Add(bow.GetVectorsList()[22]);
+            TrainingSet.Add(bow.GetVectorsList()[34]);
+          //  TrainingSet.Add(bow.GetVectorsList())
+            myVector x = bow.GetVectorsList()[0];
+
+            BackPropagation.UczenieSieci(20, TrainingSet, NeuralNetwork, classes);
+
+            Console.Beep();
+
+            int a = NeuralConstruction.SampleInput(bow.GetVectorsList()[1], NeuralNetwork);
+            var out1 = NeuralNetwork.getNetwork().Where(o=> o.type == 2);
+        }
+
+
+        //private void _Start_Click(object sender, RoutedEventArgs e)
+        //{
+
+        //    //Helper.CalculateTFIDF(bow);
+
+        //    classes = DataClass.CreateDataClasses(bow);
+        //    classes = kNN.CreateFullSet(classes, bow);
+
+        //    myVector x = bow.GetVectorsList()[0];
+
+
+        //    TestClass T = kNN.CreateTest(classes);
+
+        //    List<myVector> vectors = T.GetTestVectors();
+
+        //    NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
+
+        //    NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
+
+        //    List<int> kNNResultsIds = new List<int>();
+        //    List<int> NNResultsIds = new List<int>();
+
+        //    // Liczymy
+        //    foreach (myVector V in vectors)
+        //    {
+        //        int id = 0;
+        //        id = kNN.CalculateKNN(V, classes, 3);
+        //        kNNResultsIds.Add(id);
+        //        id = NeuralConstruction.OldSampleInput(V, NeuralNetwork);
+        //        NNResultsIds.Add(id);
+        //    }
+        //    //  String classname = classes[id].GetName();
+
+
+        //    // Dodajemy wyniki dla KNN
+        //    for (int i = 0; i < kNNResultsIds.Count; i++)
+        //    {
+        //        TestResult testresult = new TestResult("kNNAlgorithm");
+        //        testresult.filltestData(classes, kNNResultsIds[i], vectors[i]);
+        //        kNNResults.Add(testresult);
+        //    }
+        //    // Dodajemy wyniki dla sieci neuronowej
+        //    for (int i = 0; i < NNResultsIds.Count; i++)
+        //    {
+        //        TestResult testresult = new TestResult("kNNAlgorithm");
+        //        testresult.filltestData(classes, NNResultsIds[i], vectors[i]);
+        //        NNResults.Add(testresult);
+        //    }
+        //    ListView1.ItemsSource = kNNResults;
+        //    ListView2.ItemsSource = NNResults;
+        //    kNN.TestResults(T);
+
+
+        //    //   int id = kNN.CalculateKNN(v, classes, 3);
+        //    // String classname = classes[id].GetName();
+        //    // MessageBox.Show(classname);
+
+        //}
     }
 }

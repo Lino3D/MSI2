@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         ResizeMode="CanResizeWithGrip"            
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="528" Width="549">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -44,9 +44,9 @@
             <MenuItem Header="_Help" Click="MenuItem_Click_2" >
                 <MenuItem Header="About"/>
             </MenuItem>
-            <MenuItem x:Name="_Start" Header="Start" Click="_Start_Click"  />
             <MenuItem Header="Artykuły" Click="MenuItem_Click"/>
-            <MenuItem x:Name="_Start_Copy" Header="Start2" Click="_Start_Copy_Click"  />
+            <MenuItem x:Name="_Start_Copy" Header="Start" Click="_Start_Copy_Click"  />
+            <MenuItem x:Name="UczenieSieci" Header="Naucz sieć" Click="UczenieSieci_Click"  />
         </Menu>
         <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" Height="auto" Margin="10,0,0,0" VerticalAlignment="Stretch" Width="auto" Grid.Row="1">
             <TabItem Header="Main">
@@ -72,7 +72,7 @@
                         <ColumnDefinition Width="247*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="ListView1" Grid.Column="0" HorizontalAlignment="Left" Height="156" Margin="5,2.397,0,0" VerticalAlignment="Top" Width="219" Grid.Row="1" >
+                    <ListView x:Name="ListView1" Grid.Column="0" HorizontalAlignment="Left" Height="156" Margin="0,36,0,0" VerticalAlignment="Top" Width="219" Grid.RowSpan="2" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="70" Header="Correct" DisplayMemberBinding="{Binding CorrectClass}"  />
@@ -81,7 +81,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="ListView2" Grid.Column="1" HorizontalAlignment="Left" Height="156" Margin="10,2.397,0,0" VerticalAlignment="Top" Width="219" Grid.Row="1" >
+                    <ListView x:Name="ListView2" Grid.Column="1" HorizontalAlignment="Left" Height="156" Margin="0,36,0,0" VerticalAlignment="Top" Width="219" Grid.RowSpan="2" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="70" Header="Correct" DisplayMemberBinding="{Binding CorrectClass}"  />
@@ -92,6 +92,16 @@
                     </ListView>
                     <Label x:Name="label1" Grid.Column="0" Grid.Row="0" Content="kNN Results" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="label2" Grid.Column="1" Grid.Row="0" Content="Neural Network Results" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label1_Copy" Grid.Row="1" Content="Neural Network Without Hidden Layer" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top"/>
+                    <ListView x:Name="ListView3" HorizontalAlignment="Left" Height="156" Margin="0,153,0,0" VerticalAlignment="Top" Width="219" Grid.Row="1" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="70" Header="Correct" DisplayMemberBinding="{Binding CorrectClass}"  />
+                                <GridViewColumn Width="70" Header="Found" DisplayMemberBinding="{Binding FoundClass}" />
+                                <GridViewColumn Width="60" Header="Result" DisplayMemberBinding="{Binding Result}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
                 </Grid>
             </TabItem>

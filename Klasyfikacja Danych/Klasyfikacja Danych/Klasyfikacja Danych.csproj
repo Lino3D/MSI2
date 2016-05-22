@@ -90,6 +90,7 @@
       <DependentUpon>ArtykulyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Article.cs" />
+    <Compile Include="Classes\BackPropagation.cs" />
     <Compile Include="Classes\BagOfWords.cs" />
     <Compile Include="Classes\DataClass.cs" />
     <Compile Include="Classes\Helper.cs" />

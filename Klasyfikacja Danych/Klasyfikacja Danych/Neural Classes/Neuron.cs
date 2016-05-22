@@ -132,6 +132,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
     {
         private int id;
         private float weight;
+        private float newweight;
         private Neuron from;
         private Neuron to;
 
@@ -156,6 +157,11 @@ namespace Klasyfikacja_Danych.Neural_Classes
         {
             get { return weight; }
             set { weight = value; }
+        }
+        public float NewWeight
+        {
+            get { return newweight; }
+            set { newweight = value; }
         }
        public Connection(int a, float b, Neuron X, Neuron Y)
         {

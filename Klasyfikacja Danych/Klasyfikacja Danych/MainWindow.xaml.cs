@@ -47,6 +47,7 @@ namespace Klasyfikacja_Danych
             myVector V = bow.GetVectorsList()[0];
             classes = DataClass.CreateDataClasses(bow);
             NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count, classes);
+
             NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
             int id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
             

@@ -11,7 +11,8 @@ namespace Klasyfikacja_Danych.Neural_Classes
     {
         private int id;
         private float threshold;
-        private List<Neuron> connections = new List<Neuron>();
+        private List<Neuron> connectionsOld = new List<Neuron>();
+        private List<Connection> connections = new List<Connection>();
         private List<float> weights = new List<float>();
         // useless parameter
         private float weight;
@@ -67,20 +68,33 @@ namespace Klasyfikacja_Danych.Neural_Classes
         }
 
 
-        public void connect(Neuron neuron, float weight)
+        public void connectOld(Neuron neuron, float weight)
         {
-            connections.Add(neuron);
+            connectionsOld.Add(neuron);
             weights.Add(weight);
         }
-        public void connect(params KeyValuePair<Neuron, float>[] neurons)
+        public void connectOld(params KeyValuePair<Neuron, float>[] neurons)
         {
             foreach (var n in neurons)
             {
-                connections.Add(n.Key);
+                connectionsOld.Add(n.Key);
                 weights.Add(n.Value);
             }
         }
-        public List<Neuron> GetConnections()
+
+        public void Connect(int id,Neuron neuron, float weight)
+        {
+            Connection C = new Connection(id, weight, this, neuron);
+            connections.Add(C);
+        }
+
+
+        public List<Neuron> GetConnectionsOld()
+        {
+            return connectionsOld;
+        }
+
+        public List<Connection> GetConnections()
         {
             return connections;
         }
@@ -90,6 +104,44 @@ namespace Klasyfikacja_Danych.Neural_Classes
             return weights;
         }
 
+
+    }
+    public class Connection
+    {
+        private int id;
+        private float weight;
+        private Neuron from;
+        private Neuron to;
+
+        public Neuron From
+        {
+            get { return from; }
+            set { from = value; }
+        }
+        public Neuron To
+        {
+            get { return to; }
+            set { to = value; }
+        }
+
+        public int ID
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        public float Weight
+        {
+            get { return weight; }
+            set { weight = value; }
+        }
+       public Connection(int a, float b, Neuron X, Neuron Y)
+        {
+            id = a;
+            weight = b;
+            from = X;
+            to = Y;
+        }
 
     }
     public class Network

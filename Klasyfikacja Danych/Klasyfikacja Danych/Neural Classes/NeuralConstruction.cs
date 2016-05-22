@@ -49,7 +49,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             foreach (var neuron in NeuronList)
             {
                 foreach (var outputNeuron in OutputNeuronList)
-                    neuron.connect(outputNeuron, 0);// (float)rand.NextDouble());
+                    neuron.connectOld(outputNeuron, 0);// (float)rand.NextDouble());
                 Net.addNeuron(neuron);
             }
 
@@ -58,6 +58,36 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return Net;
         }
+        public static Network CreateNewDefaultNetwork(int size, List<DataClass> Classes)
+        {
+            Random rand = new Random();
+            Network Net = new Network();
+
+            List<Neuron> NeuronList = new List<Neuron>();
+
+            List<Neuron> OutputNeuronList = new List<Neuron>();
+
+            for (int i = 0; i < size; i++)
+                NeuronList.Add(new Neuron(i, 1, 0));// (float)rand.NextDouble()));
+                                                    //
+            for (int i = 0; i < Classes.Count; i++)
+                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName()));
+
+            foreach (var neuron in NeuronList)
+            {
+                foreach (var outputNeuron in OutputNeuronList)
+                    neuron.connectOld(outputNeuron, 0);// (float)rand.NextDouble());
+                Net.addNeuron(neuron);
+            }
+
+            foreach (var neuron in OutputNeuronList)
+                Net.addNeuron(neuron);
+
+            return Net;
+        }
+
+
+
         public static int NewSampleInput(myVector sampleInput, Network N)
         {
             var vector = sampleInput.GetVector();
@@ -80,14 +110,14 @@ namespace Klasyfikacja_Danych.Neural_Classes
             {
                 // int index = vector[i];
                 var neuron = N.getNetwork().ElementAt(i);
-                var ConnectionVector = neuron.GetConnections();
+                var ConnectionVector = neuron.GetConnectionsOld();
 
                 for( int j = vector.Count,  k = 0 ; k < ConnectionVector.Count; j++, k++)
                 {
                     N.getNetwork().ElementAt(j).Input += neuron.Input * neuron.GetWeights()[k];
                 }
             }
-            int connectionCount = N.getNetwork()[0].GetConnections().Count();
+            int connectionCount = N.getNetwork()[0].GetConnectionsOld().Count();
 
             double max = 0;
             for(int i=vector.Count; i< vector.Count + connectionCount; i++)

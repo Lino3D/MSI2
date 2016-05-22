@@ -140,7 +140,7 @@ namespace Klasyfikacja_Danych
             foreach (myVector V in vectors)
             {
                 int id = 0;
-                id = kNN.CalculateKNN(V, classes, 4);
+                id = kNN.CalculateKNN(V, classes, 3);
                 kNNResultsIds.Add(id);
                 id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
                 NNResultsIds.Add(id);

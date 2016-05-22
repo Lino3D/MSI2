@@ -39,7 +39,7 @@ namespace Klasyfikacja_Danych.Classes
                     {
                        for(int i=0; i<k; i++)
                         {
-                           if(d<kNearest[i].Distance &&  (ContainCheck(kNearest,d, distances.IndexOf(cd)) ==false))
+                           if(d>kNearest[i].Distance &&  (ContainCheck(kNearest,d, distances.IndexOf(cd)) ==false))
                             {
                                 kNearest[i].Distance = d;
                                 kNearest[i].Id = distances.IndexOf(cd);

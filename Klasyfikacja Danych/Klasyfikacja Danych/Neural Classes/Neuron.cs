@@ -19,6 +19,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
         private float bias = 1;
         private float input;
         private string KatName;
+        private int Type;  // 0 -> input, 1-> hidden, 2-> output
 
 
         public int ID
@@ -44,12 +45,13 @@ namespace Klasyfikacja_Danych.Neural_Classes
             set { weight = value; }
         }
 
-        public Neuron(int a, string Name)
+        public Neuron(int a, string Name, int type)
         {
             id = a;
             threshold = 1;
             weight = 1;
             KatName = Name;
+            this.Type = type;
             // connections = null;
         }
         public Neuron(int a, float b)
@@ -64,6 +66,15 @@ namespace Klasyfikacja_Danych.Neural_Classes
             id = a;
             threshold = b;
             weight = c;
+            // connections = null;
+        }
+
+        public Neuron(int a, float b, float c, int type)
+        {
+            id = a;
+            threshold = b;
+            weight = c;
+            this.Type = type;
             // connections = null;
         }
 

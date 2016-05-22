@@ -38,7 +38,7 @@ namespace Klasyfikacja_Danych
             InitializeComponent();
             DataContext = this;
             Refresh();
-         ///   InitializeNetwork();
+           InitializeNetwork();
         }
 
         public void InitializeNetwork()
@@ -46,10 +46,12 @@ namespace Klasyfikacja_Danych
  
             myVector V = bow.GetVectorsList()[0];
             classes = DataClass.CreateDataClasses(bow);
-            NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count, classes);
+    //        NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count, classes);
 
-            NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
-            int id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
+            NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(V.GetVector().Count, classes, 6);
+
+         //   NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
+        //    int id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
             
         }
 

@@ -36,17 +36,17 @@ namespace Klasyfikacja_Danych.Neural_Classes
             Random rand = new Random();
             Network Net = new Network();
 
-            List<Neuron> NeuronList = new List<Neuron>();
+            List<Neuron> InputNeuronList = new List<Neuron>();
 
             List<Neuron> OutputNeuronList = new List<Neuron>();
 
             for (int i = 0; i < size; i++)
-                NeuronList.Add(new Neuron(i, 1,0));// (float)rand.NextDouble()));
+                InputNeuronList.Add(new Neuron(i, 1,0));// (float)rand.NextDouble()));
 //
             for (int i = 0; i < Classes.Count; i++)
-                OutputNeuronList.Add(new Neuron( -i - 1, Classes[i].GetName()));
+                OutputNeuronList.Add(new Neuron( -i - 1, Classes[i].GetName(),2));
 
-            foreach (var neuron in NeuronList)
+            foreach (var neuron in InputNeuronList)
             {
                 foreach (var outputNeuron in OutputNeuronList)
                     neuron.connectOld(outputNeuron, 0);// (float)rand.NextDouble());
@@ -58,27 +58,57 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return Net;
         }
-        public static Network CreateNewDefaultNetwork(int size, List<DataClass> Classes)
+        public static Network CreateNewDefaultNetwork(int size, List<DataClass> Classes, int k)
         {
             Random rand = new Random();
             Network Net = new Network();
 
-            List<Neuron> NeuronList = new List<Neuron>();
+            List<Neuron> InputNeuronList = new List<Neuron>();
+
+            List<Neuron> HiddenNeuronList = new List<Neuron>();
 
             List<Neuron> OutputNeuronList = new List<Neuron>();
 
             for (int i = 0; i < size; i++)
-                NeuronList.Add(new Neuron(i, 1, 0));// (float)rand.NextDouble()));
+                InputNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(),0));// (float)rand.NextDouble()));
                                                     //
             for (int i = 0; i < Classes.Count; i++)
-                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName()));
+                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName(),2));
 
-            foreach (var neuron in NeuronList)
+            for (int i = 0; i < k; i++)
+                HiddenNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(),1));
+
+            //foreach (var neuron in InputNeuronList)
+            //{
+            //    foreach (var outputNeuron in OutputNeuronList)
+            //        neuron.connectOld(outputNeuron, 0);// (float)rand.NextDouble());
+            //    Net.addNeuron(neuron);
+            //}
+            int j = 0;
+            foreach (var inputNeuron in InputNeuronList)
             {
-                foreach (var outputNeuron in OutputNeuronList)
-                    neuron.connectOld(outputNeuron, 0);// (float)rand.NextDouble());
-                Net.addNeuron(neuron);
+               
+                foreach(var hiddenNeuron in HiddenNeuronList)
+                {
+                    inputNeuron.Connect(j, hiddenNeuron, (float)rand.NextDouble());
+                        j++;
+                }
             }
+
+            foreach (var hiddenNeuron in HiddenNeuronList)
+            {
+
+                foreach (var outputNeuron in HiddenNeuronList)
+                {
+                    hiddenNeuron.Connect(j, outputNeuron, (float)rand.NextDouble());
+                    j++;
+                }
+            }
+            foreach (var neuron in InputNeuronList)
+                Net.addNeuron(neuron);
+
+            foreach (var neuron in HiddenNeuronList)
+                Net.addNeuron(neuron);
 
             foreach (var neuron in OutputNeuronList)
                 Net.addNeuron(neuron);

@@ -78,7 +78,7 @@ namespace Klasyfikacja_Danych.Classes
             distance = a;
             id = b;
         }
-
+ 
     }
     public class TestClass
     {

@@ -39,7 +39,7 @@ namespace Klasyfikacja_Danych.Classes
                     {
                        for(int i=0; i<k; i++)
                         {
-                           if(d<kNearest[i].Distance)
+                           if(d<kNearest[i].Distance &&  (ContainCheck(kNearest,d, distances.IndexOf(cd)) ==false))
                             {
                                 kNearest[i].Distance = d;
                                 kNearest[i].Id = distances.IndexOf(cd);
@@ -48,20 +48,29 @@ namespace Klasyfikacja_Danych.Classes
                     }
                 }
             }
-            int[] best = new int[k];
-            for(int i=0; i<k; i++)
+            int[] best = new int[Classes.Count];
+            for(int i=0; i<best.Count(); i++)
             { best[i] = 0; }
             foreach( Neighbour N in kNearest)
             {
                 best[N.Id]++;
             }
             int bestOption = best.ToList().IndexOf(best.Max());
-     //       Classes[bestOption].AddVector(V);
 
         return bestOption;
         }
 
 
+        public static bool ContainCheck(List<Neighbour> Neighs, double D, int id)
+        {
+            bool contains = false;
+            foreach (Neighbour N in Neighs)
+            {
+                if (N.Distance == D && N.Id==id)
+                    contains = true;
+            }
+            return contains;
+        }
 
         public static List<DataClass> CreateFullSet(List<DataClass> Classes, BagOfWords BoW)
         {

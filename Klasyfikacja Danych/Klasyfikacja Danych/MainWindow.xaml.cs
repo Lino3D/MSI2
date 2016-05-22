@@ -142,7 +142,7 @@ namespace Klasyfikacja_Danych
                 int id = 0;
                 id = kNN.CalculateKNN(V, classes, 4);
                 kNNResultsIds.Add(id);
-                id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
+                id = NeuralConstruction.OldSampleInput(V, NeuralNetwork);
                 NNResultsIds.Add(id);
             }
             //  String classname = classes[id].GetName();

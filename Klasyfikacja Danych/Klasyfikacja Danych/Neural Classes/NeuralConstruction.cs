@@ -115,10 +115,17 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return Net;
         }
+        public static int SampleInput(myVector sampleInput, Network N)
+        {
 
 
 
-        public static int NewSampleInput(myVector sampleInput, Network N)
+
+            return 0;
+        }
+
+
+        public static int OldSampleInput(myVector sampleInput, Network N)
         {
             var vector = sampleInput.GetVector();
             int id = 0;

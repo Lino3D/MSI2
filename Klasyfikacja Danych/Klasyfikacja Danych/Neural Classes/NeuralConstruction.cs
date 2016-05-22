@@ -78,13 +78,8 @@ namespace Klasyfikacja_Danych.Neural_Classes
             for (int i = 0; i < k; i++)
                 HiddenNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(),1));
 
-            //foreach (var neuron in InputNeuronList)
-            //{
-            //    foreach (var outputNeuron in OutputNeuronList)
-            //        neuron.connectOld(outputNeuron, 0);// (float)rand.NextDouble());
-            //    Net.addNeuron(neuron);
-            //}
             int j = 0;
+            //connect input and hidden
             foreach (var inputNeuron in InputNeuronList)
             {
                
@@ -94,7 +89,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
                         j++;
                 }
             }
-
+            //connect hidden with output;
             foreach (var hiddenNeuron in HiddenNeuronList)
             {
 
@@ -115,6 +110,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return Net;
         }
+
         public static int SampleInput(myVector sampleInput, Network N)
         {
 
@@ -219,43 +215,6 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
         }
 
-        public static void sampleInput(myVector sampleInput, Network N)
-        {
-            //List<Neuron> neurons = N.getNetwork();
-
-            //Neuron inputNeuron = neurons[0];
-
-            //inputNeuron.Input = sampleInput;
-
-
-            //foreach (Neuron n in inputNeuron.GetConnections())
-            //{
-            //    var tmp = new myVector(inputNeuron.Input.GetVector().Count);
-
-            //    var vector = inputNeuron.Input.GetVector();
-            //    for (int i = 0; i < vector.Count; i++)
-            //        tmp.GetVector()[i] = vector[i] * n.Weight;
-
-            //    n.Input = tmp;
-            //}
-
-
-
-            //var tmp2 = new myVector(inputNeuron.Input.GetVector().Count);
-
-            //var vector1 = neurons[1];
-            //var vector2 = neurons[2];
-            //var vector3 = neurons[3];
-            //var vector4 = neurons[4];
-
-            //for (int i = 0; i < vector1.Input.GetVector().Count; i++)
-            //    tmp2.GetVector()[i] = vector1.Input.GetVector()[i] + vector2.Input.GetVector()[i] + vector3.Input.GetVector()[i] + vector4.Input.GetVector()[i];
-
-            //neurons[5].Input = tmp2;
-
-
-
-        }
 
 
 

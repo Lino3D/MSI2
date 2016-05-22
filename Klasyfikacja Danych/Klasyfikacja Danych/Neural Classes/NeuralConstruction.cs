@@ -93,7 +93,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             foreach (var hiddenNeuron in HiddenNeuronList)
             {
 
-                foreach (var outputNeuron in HiddenNeuronList)
+                foreach (var outputNeuron in OutputNeuronList)
                 {
                     hiddenNeuron.Connect(j, outputNeuron, (float)rand.NextDouble());
                     j++;

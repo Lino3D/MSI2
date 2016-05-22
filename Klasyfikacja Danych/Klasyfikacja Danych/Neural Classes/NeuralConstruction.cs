@@ -30,7 +30,6 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             return N;
         }
-
         public static Network CreateDefaultNetwork(int size, List<DataClass> Classes)
         {
             Random rand = new Random();
@@ -41,10 +40,10 @@ namespace Klasyfikacja_Danych.Neural_Classes
             List<Neuron> OutputNeuronList = new List<Neuron>();
 
             for (int i = 0; i < size; i++)
-                InputNeuronList.Add(new Neuron(i, 1,0));// (float)rand.NextDouble()));
-//
+                InputNeuronList.Add(new Neuron(i, 1, 0));// (float)rand.NextDouble()));
+            //
             for (int i = 0; i < Classes.Count; i++)
-                OutputNeuronList.Add(new Neuron( -i - 1, Classes[i].GetName(),2));
+                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName(), 2));
 
             foreach (var neuron in InputNeuronList)
             {
@@ -70,30 +69,30 @@ namespace Klasyfikacja_Danych.Neural_Classes
             List<Neuron> OutputNeuronList = new List<Neuron>();
 
             for (int i = 0; i < size; i++)
-                InputNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(),0));// (float)rand.NextDouble()));
-                                                    //
+                InputNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(), 0));// (float)rand.NextDouble()));
+            //
             for (int i = 0; i < Classes.Count; i++)
-                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName(),2));
+                OutputNeuronList.Add(new Neuron(-i - 1, Classes[i].GetName(), 2));
 
             for (int i = 0; i < k; i++)
-                HiddenNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(),1));
+                HiddenNeuronList.Add(new Neuron(i, 1, (float)rand.NextDouble(), 1));
 
             int j = 0;
             //connect input and hidden
             foreach (var inputNeuron in InputNeuronList)
             {
-               
-                foreach(var hiddenNeuron in HiddenNeuronList)
+
+                foreach (var hiddenNeuron in HiddenNeuronList)
                 {
                     inputNeuron.Connect(j, hiddenNeuron, (float)rand.NextDouble());
-                        j++;
+                    j++;
                 }
             }
             //connect hidden with output;
             foreach (var hiddenNeuron in HiddenNeuronList)
             {
 
-                foreach (var outputNeuron in HiddenNeuronList)
+                foreach (var outputNeuron in OutputNeuronList)
                 {
                     hiddenNeuron.Connect(j, outputNeuron, (float)rand.NextDouble());
                     j++;
@@ -113,20 +112,69 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
         public static int SampleInput(myVector sampleInput, Network N)
         {
+            N = ClearInputs(N);
+
+            // Pierwsza iteracja
+            var InputLayer = N.getNetwork().Where(o => o.type == 0).ToList();
+            var WordsList = sampleInput.GetVector();
+            for (int i = 0; i < sampleInput.GetVector().Count; i++)
+            {
+                InputLayer[i].Input = (float)WordsList[i];
+            }
+
+            // Druga iteracja
+
+            CalculateInput(InputLayer);
+
+
+            // Trzecia iteracja
+            var HiddenLayer = N.getNetwork().Where(o => o.type == 1).ToList();
+
+            CalculateInput(HiddenLayer);
 
 
 
 
-            return 0;
+
+            var OutputLayer = N.getNetwork().Where(o => o.type == 2).ToList();
+
+
+
+
+            return - OutputLayer.OrderBy(o => o.Input).FirstOrDefault().ID -1;
         }
 
+        private static void CheckResult()
+        {
+
+        }
+
+
+        private static void CalculateInput(List<Neuron> Layer)
+        {
+            foreach (var neuron in Layer)
+            {
+                foreach (var connection in neuron.GetConnections())
+                {
+                    connection.To.Input += connection.From.Input * connection.Weight;
+                }
+            }
+        }
+        private static Network ClearInputs(Network net)
+        {
+            foreach (var neuron in net.getNetwork())
+            {
+                neuron.Input = 0;
+            }
+            return net;
+        }
 
         public static int OldSampleInput(myVector sampleInput, Network N)
         {
             var vector = sampleInput.GetVector();
             int id = 0;
             // Zerujemy inputy
-            foreach( var neuron in N.getNetwork())
+            foreach (var neuron in N.getNetwork())
                 neuron.Input = 0;
 
 
@@ -145,7 +193,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
                 var neuron = N.getNetwork().ElementAt(i);
                 var ConnectionVector = neuron.GetConnectionsOld();
 
-                for( int j = vector.Count,  k = 0 ; k < ConnectionVector.Count; j++, k++)
+                for (int j = vector.Count, k = 0; k < ConnectionVector.Count; j++, k++)
                 {
                     N.getNetwork().ElementAt(j).Input += neuron.Input * neuron.GetWeights()[k];
                 }
@@ -153,13 +201,13 @@ namespace Klasyfikacja_Danych.Neural_Classes
             int connectionCount = N.getNetwork()[0].GetConnectionsOld().Count();
 
             double max = 0;
-            for(int i=vector.Count; i< vector.Count + connectionCount; i++)
+            for (int i = vector.Count; i < vector.Count + connectionCount; i++)
             {
                 var neuron = N.getNetwork().ElementAt(i);
                 if (neuron.Input > max)
                 {
                     max = neuron.Input;
-                    id = (-neuron.ID) -1;
+                    id = (-neuron.ID) - 1;
                 }
             }
 
@@ -183,17 +231,17 @@ namespace Klasyfikacja_Danych.Neural_Classes
                 for (int j = 0; j < weights.Count; j++)
                     weights[j] = 0;
 
-                    for (int j = 0; j < Vectors.Count; j++)
-                    {
-                        index = Classes.IndexOf( Classes.Where(o => o.GetName().Contains(Vectors[j].GetVectorName().Substring(0, 5))).First());
-                        weights[index] += Vectors[j].GetVector()[i];
-                    }
+                for (int j = 0; j < Vectors.Count; j++)
+                {
+                    index = Classes.IndexOf(Classes.Where(o => o.GetName().Contains(Vectors[j].GetVectorName().Substring(0, 5))).First());
+                    weights[index] += Vectors[j].GetVector()[i];
+                }
                 foreach (var elem in weights)
                     sum += elem;
 
-                for( int k = 0; k < weights.Count; k++)
+                for (int k = 0; k < weights.Count; k++)
                 {
-                    N.getNetwork()[i].GetWeights()[k] = (float) (weights[k] / sum);
+                    N.getNetwork()[i].GetWeights()[k] = (float)(weights[k] / sum);
                 }
 
 
@@ -204,7 +252,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
         {
             List<string> kat = new List<string>();
 
-            foreach( var item in lst)
+            foreach (var item in lst)
             {
                 if (!kat.Contains(item.GetVectorName().Substring(0, 5)))
                     kat.Add(item.GetVectorName().Substring(0, 5));

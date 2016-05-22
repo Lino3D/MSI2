@@ -46,6 +46,7 @@
             </MenuItem>
             <MenuItem x:Name="_Start" Header="Start" Click="_Start_Click"  />
             <MenuItem Header="Artykuły" Click="MenuItem_Click"/>
+            <MenuItem x:Name="_Start_Copy" Header="Start2" Click="_Start_Copy_Click"  />
         </Menu>
         <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" Height="auto" Margin="10,0,0,0" VerticalAlignment="Stretch" Width="auto" Grid.Row="1">
             <TabItem Header="Main">

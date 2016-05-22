@@ -19,8 +19,10 @@ namespace Klasyfikacja_Danych.Classes
             float target;
             float coef = 0.0f;
             var middle = N.getNetwork().Where(o => o.type == 1).ToList();
+            var output = N.getNetwork().Where(o => o.type == 2).ToList();
             while (k > 0)
             {
+                //var vector = V[0];
                 foreach (var vector in V)
                 {
                     NeuralConstruction.SampleInput(vector, N);
@@ -51,6 +53,7 @@ namespace Klasyfikacja_Danych.Classes
                         for (int i = 0; i < connections.Count; i++)
                         {
                             var ConTo = HiddenLayer.First().GetConnections();
+                            coef = 0;
                             for (int j = 0; j < ConTo.Count; j++)
                             {
                                 target = (id == j) ? 1 : 0;

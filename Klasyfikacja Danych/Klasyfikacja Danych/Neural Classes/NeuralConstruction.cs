@@ -181,6 +181,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             int correctID = 25;
             int Counter = 0;
 
+            ClearInputs(N);
             //float NormalizationCoef = 1 / sampleInput.GetVector().Count;
             float NormalizationCoef = 1.0f / 500.0f;
             var WordsList = sampleInput.GetVector();
@@ -278,13 +279,12 @@ namespace Klasyfikacja_Danych.Neural_Classes
                 }
             }
         }
-        private static Network ClearInputs(Network net)
+        private static void ClearInputs(Network net)
         {
             foreach (var neuron in net.getNetwork())
             {
-                neuron.Input = 0;
+                neuron.Input = 0.0f;
             }
-            return net;
         }
         private static void SigmoidFunction(List<Neuron> Layer, float NormalizationCoef)
         {

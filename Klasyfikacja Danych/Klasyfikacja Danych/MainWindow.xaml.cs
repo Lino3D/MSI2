@@ -186,7 +186,7 @@ namespace Klasyfikacja_Danych
             Console.Beep();
 
             int a = NeuralConstruction.SampleInput(bow.GetVectorsList()[1], NeuralNetwork);
-            var out1 = NeuralNetwork.getNetwork().Where(o=> o.type == 2);
+            var out1 = NeuralNetwork.getNetwork().Where(o=> o.type == 2).ToList();
         }
 
 

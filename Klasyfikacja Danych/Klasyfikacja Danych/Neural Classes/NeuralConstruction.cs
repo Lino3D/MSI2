@@ -112,11 +112,29 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
         public static int SampleInput(myVector sampleInput, Network N)
         {
+
+
+            float sum;
+            float Error = 0;
+            int foundID = -35;
+            int correctID = 25;
+            int Counter = 0;
+
+            var WordsList = sampleInput.GetVector();
+            var InputLayer = N.getNetwork().Where(o => o.type == 0).ToList();
+         
+
+            var HiddenLayer = N.getNetwork().Where(o => o.type == 1).ToList();
+            var OutputLayer = N.getNetwork().Where(o => o.type == 2).ToList();
+
+
+            while (foundID!=correctID && Counter <20)
+            {
+                sum = 0;
             N = ClearInputs(N);
 
             // Pierwsza iteracja
-            var InputLayer = N.getNetwork().Where(o => o.type == 0).ToList();
-            var WordsList = sampleInput.GetVector();
+           
             for (int i = 0; i < sampleInput.GetVector().Count; i++)
             {
                 InputLayer[i].Input = (float)WordsList[i];
@@ -126,25 +144,67 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             CalculateInput(InputLayer);
 
-
             // Trzecia iteracja
-            var HiddenLayer = N.getNetwork().Where(o => o.type == 1).ToList();
-
+           
             CalculateInput(HiddenLayer);
 
+             foundID = -OutputLayer.OrderBy(o => o.Input).FirstOrDefault().ID - 1;
+             correctID = -CorrectId(sampleInput, OutputLayer) - 1;
+
+
+            sum = SumInputs(OutputLayer, sum);
+             Error = (OutputLayer[correctID].Input - OutputLayer[foundID].Input) / sum;
+                if (foundID != correctID)
+                {
+                    AdjustWeights(HiddenLayer, Error);
+                    AdjustWeights(InputLayer, Error);
+                }
+                Counter++;
+            }
 
 
 
-
-            var OutputLayer = N.getNetwork().Where(o => o.type == 2).ToList();
-
-
-
-
-            return - OutputLayer.OrderBy(o => o.Input).FirstOrDefault().ID -1;
+            return foundID;
         }
 
-        private static void CheckResult()
+        private static void AdjustWeights(List<Neuron> Layer, float error)
+        {
+            foreach (var neuron in Layer)
+            {
+                foreach (var connection in neuron.GetConnections())
+                {
+                    connection.Weight = connection.Weight * error;
+                }
+            }
+        }
+
+
+        private static float SumInputs(List<Neuron> OutputLayer, float sum)
+        {
+            foreach (Neuron n in OutputLayer)
+            {
+                sum += n.Input;
+            }
+
+            return sum;
+        }
+
+        private static int CorrectId(myVector sample, List<Neuron> outputlayer)
+        {
+            int correctID = 0;
+            string correctclassName = sample.GetVectorName();
+            correctclassName = correctclassName.Remove(correctclassName.Length - 2);
+            foreach (Neuron n in outputlayer)
+            {
+                if (n.Category == correctclassName)
+                    correctID = n.ID;
+            }
+            return correctID;
+
+
+        }
+
+        private static void CheckResult(int CorrectID, int ReturnedId)
         {
 
         }

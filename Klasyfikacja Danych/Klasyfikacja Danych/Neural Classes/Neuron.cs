@@ -50,6 +50,11 @@ namespace Klasyfikacja_Danych.Neural_Classes
             get { return weight; }
             set { weight = value; }
         }
+        public string Category
+        {
+            get { return KatName; }
+            set { KatName = Category; }
+        }
 
         public Neuron(int a, string Name, int type)
         {

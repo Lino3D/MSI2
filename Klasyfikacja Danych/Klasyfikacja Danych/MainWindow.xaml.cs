@@ -44,13 +44,13 @@ namespace Klasyfikacja_Danych
         public void InitializeNetwork()
         {
  
-            myVector V = bow.GetVectorsList()[0];
-            classes = DataClass.CreateDataClasses(bow);
+      //      myVector V = bow.GetVectorsList()[0];
+      //      classes = DataClass.CreateDataClasses(bow);
     //        NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(V.GetVector().Count, classes);
 
-            NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(V.GetVector().Count, classes, 6);
+     //       NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(V.GetVector().Count, classes, 6);
 
-            NeuralConstruction.SampleInput(V,NeuralNetwork);
+      //      NeuralConstruction.SampleInput(V,NeuralNetwork);
          //   NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
         //    int id = NeuralConstruction.NewSampleInput(V, NeuralNetwork);
             
@@ -192,7 +192,7 @@ namespace Klasyfikacja_Danych
 
           //  NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
 
-       //     NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 6);
+          NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 6);
 
             List<int> kNNResultsIds = new List<int>();
             List<int> NNResultsIds = new List<int>();

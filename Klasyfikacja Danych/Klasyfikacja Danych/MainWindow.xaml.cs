@@ -54,6 +54,10 @@ namespace Klasyfikacja_Danych
             NeuralConstruction.SampleWeight(WithoutHiddenLayerNetwork, bow.GetVectorsList(), classes);
 
             NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 20);
+
+            SerializationClass.SerializeObject(NeuralNetwork,"Dupa.xml");
+           var connectionsWeights = NeuralNetwork.ExportConnectionWeights();
+            SerializationClass.SerializeObject(connectionsWeights, "DupaPołączenia.xml");
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

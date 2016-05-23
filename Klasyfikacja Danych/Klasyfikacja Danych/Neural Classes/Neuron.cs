@@ -11,9 +11,9 @@ namespace Klasyfikacja_Danych.Neural_Classes
     {
         private int id;
         private float threshold;
-        private List<Neuron> connectionsOld = new List<Neuron>();
+        public List<Neuron> connectionsOld = new List<Neuron>();
         private List<Connection> connections = new List<Connection>();
-        private List<float> weights = new List<float>();
+        public List<float> weights = new List<float>();
         // useless parameter
         private float weight;
         private float bias = 1;
@@ -55,7 +55,8 @@ namespace Klasyfikacja_Danych.Neural_Classes
             get { return KatName; }
             set { KatName = Category; }
         }
-
+        public Neuron()
+        { }
         public Neuron(int a, string Name, int type)
         {
             id = a;
@@ -163,6 +164,8 @@ namespace Klasyfikacja_Danych.Neural_Classes
             get { return newweight; }
             set { newweight = value; }
         }
+        public Connection()
+        { }
        public Connection(int a, float b, Neuron X, Neuron Y)
         {
             id = a;
@@ -175,7 +178,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
     public class Network
     {
         private int id;
-        private List<Neuron> Neurons = new List<Neuron>();
+        public List<Neuron> Neurons = new List<Neuron>();
         private string Name;
         public int ID
         {
@@ -192,6 +195,22 @@ namespace Klasyfikacja_Danych.Neural_Classes
         public List<Neuron> getNetwork()
         {
             return Neurons;
+        }
+        public List<List<float>> ExportConnectionWeights()
+        {
+            List<List<float>> weights = new List<List<float>>();
+
+            foreach (Neuron n in this.Neurons)
+            {
+                var list = new List<float>();
+                List<Connection> connections = n.GetConnections();
+                foreach(Connection c in connections)
+                {
+                    list.Add(c.Weight);
+                }
+                weights.Add(list);
+            }
+            return weights;
         }
 
 

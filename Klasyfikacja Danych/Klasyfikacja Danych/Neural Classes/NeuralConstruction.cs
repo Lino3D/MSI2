@@ -183,7 +183,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
             ClearInputs(N);
             //float NormalizationCoef = 1 / sampleInput.GetVector().Count;
-            float NormalizationCoef = 1.0f / 500.0f;
+            float NormalizationCoef = 1.0f / 50.0f;
             var WordsList = sampleInput.GetVector();
             var InputLayer = N.getNetwork().Where(o => o.type == 0).ToList();
 
@@ -291,6 +291,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             foreach (var neuron in Layer)
             {
                 neuron.Input =  1 / (1 + (float)Math.Pow(Math.E, -(double)neuron.Input*NormalizationCoef));
+            //    neuron.Input *= NormalizationCoef*10.0f;
             }            
         }
 

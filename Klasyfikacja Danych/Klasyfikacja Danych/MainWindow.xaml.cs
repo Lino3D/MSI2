@@ -53,7 +53,7 @@ namespace Klasyfikacja_Danych
             WithoutHiddenLayerNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
             NeuralConstruction.SampleWeight(WithoutHiddenLayerNetwork, bow.GetVectorsList(), classes);
 
-            NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 6);
+            NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 20);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -174,19 +174,22 @@ namespace Klasyfikacja_Danych
         private void UczenieSieci_Click(object sender, RoutedEventArgs e)
         {
             List<myVector> TrainingSet = new List<myVector>();
-            TrainingSet.Add(bow.GetVectorsList()[0]);
+            TrainingSet.Add(bow.GetVectorsList()[1]);
             TrainingSet.Add(bow.GetVectorsList()[14]);
-            TrainingSet.Add(bow.GetVectorsList()[22]);
+            TrainingSet.Add(bow.GetVectorsList()[23]);
             TrainingSet.Add(bow.GetVectorsList()[34]);
           //  TrainingSet.Add(bow.GetVectorsList())
             myVector x = bow.GetVectorsList()[0];
 
-            BackPropagation.UczenieSieci(20, TrainingSet, NeuralNetwork, classes);
-
+         //   BackPropagation.UczenieSieci(200, TrainingSet, NeuralNetwork, classes);
+            BackPropagation.UczenieSieci(500, bow.GetVectorsList(), NeuralNetwork, classes,TrainingSet);
             Console.Beep();
 
             int a = NeuralConstruction.SampleInput(bow.GetVectorsList()[1], NeuralNetwork);
             var out1 = NeuralNetwork.getNetwork().Where(o=> o.type == 2).ToList();
+            NeuralConstruction.SampleInput(bow.GetVectorsList()[14], NeuralNetwork);
+            NeuralConstruction.SampleInput(bow.GetVectorsList()[23], NeuralNetwork);
+            NeuralConstruction.SampleInput(bow.GetVectorsList()[34], NeuralNetwork);
         }
 
 

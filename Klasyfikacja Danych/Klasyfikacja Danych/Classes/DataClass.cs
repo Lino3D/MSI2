@@ -60,10 +60,10 @@ namespace Klasyfikacja_Danych.Classes
                     id = 1;
                     break;
                 case "Zoologia":
-                    id = 2;
+                    id = 3;
                     break;
                 case "Technologia":
-                    id = 3;
+                    id = 2;
                     break;
             }
         }

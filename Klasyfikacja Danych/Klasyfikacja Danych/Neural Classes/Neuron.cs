@@ -2,22 +2,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Klasyfikacja_Danych.Neural_Classes
 {
+    [DataContract(IsReference = true)]
     public class Neuron
     {
+        [DataMember]
         private int id;
         private float threshold;
         public List<Neuron> connectionsOld = new List<Neuron>();
+        [DataMember]
         private List<Connection> connections = new List<Connection>();
+       // [DataMember]
         public List<float> weights = new List<float>();
         // useless parameter
+        [DataMember]
         private float weight;
         private float bias = 1;
+        [DataMember]
         private float input;
+        [DataMember]
         private string KatName;
         private int Type;  // 0 -> input, 1-> hidden, 2-> output
 
@@ -129,12 +137,18 @@ namespace Klasyfikacja_Danych.Neural_Classes
 
 
     }
+    [DataContract]
     public class Connection
     {
+        [DataMember]
         private int id;
+        [DataMember]
         private float weight;
         private float newweight;
+
+        [DataMember]
         private Neuron from;
+        [DataMember]
         private Neuron to;
 
         public Neuron From
@@ -175,10 +189,14 @@ namespace Klasyfikacja_Danych.Neural_Classes
         }
 
     }
+    [DataContract]
     public class Network
     {
+        [DataMember]
         private int id;
+        [DataMember]
         public List<Neuron> Neurons = new List<Neuron>();
+        [DataMember]
         private string Name;
         public int ID
         {

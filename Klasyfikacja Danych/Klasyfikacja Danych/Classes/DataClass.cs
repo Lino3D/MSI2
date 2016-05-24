@@ -135,6 +135,10 @@ namespace Klasyfikacja_Danych.Classes
         {
             return trainingClasslist;
         }
+        public List<myVector> GetTrainingtVectors()
+        {
+            return trainingVectorlist;
+        }
         public List<myVector> GetTestVectors()
         {
             return testlist;

@@ -126,7 +126,7 @@ namespace Klasyfikacja_Danych
             //Helper.CalculateTFIDF(bow);
             myVector x = bow.GetVectorsList()[0];
 
-            TestClass T = TestFunctions.CreateTest(classes);
+            TestClass T = TestFunctions.CreateTest2(classes);
             List<myVector> vectors = T.GetTestVectors();           
 
             List<int> kNNResultsIds = new List<int>();
@@ -185,18 +185,31 @@ namespace Klasyfikacja_Danych
             TrainingSet.Add(bow.GetVectorsList()[14]);
             TrainingSet.Add(bow.GetVectorsList()[23]);
             TrainingSet.Add(bow.GetVectorsList()[34]);
+
+          TestClass test=  TestFunctions.CreateVectorTest(bow);
+
           //  TrainingSet.Add(bow.GetVectorsList())
             myVector x = bow.GetVectorsList()[0];
 
-         //   BackPropagation.UczenieSieci(200, TrainingSet, NeuralNetwork, classes);
-            BackPropagation.UczenieSieci(500, bow.GetVectorsList(), NeuralNetwork, classes,TrainingSet);
+            //   BackPropagation.UczenieSieci(200, TrainingSet, NeuralNetwork, classes);
+            //  BackPropagation.UczenieSieci(500, bow.GetVectorsList(), NeuralNetwork, classes,TrainingSet);
+            BackPropagation.UczenieSieci(500, bow.GetVectorsList(), NeuralNetwork, classes, test.GetTrainingtVectors());
             Console.Beep();
 
-            int a = NeuralConstruction.SampleInput(bow.GetVectorsList()[1], NeuralNetwork);
-            var out1 = NeuralNetwork.getNetwork().Where(o=> o.type == 2).ToList();
-            NeuralConstruction.SampleInput(bow.GetVectorsList()[14], NeuralNetwork);
-            NeuralConstruction.SampleInput(bow.GetVectorsList()[23], NeuralNetwork);
-            NeuralConstruction.SampleInput(bow.GetVectorsList()[34], NeuralNetwork);
+            //int a = NeuralConstruction.SampleInput(bow.GetVectorsList()[1], NeuralNetwork);
+            //var out1 = NeuralNetwork.getNetwork().Where(o=> o.type == 2).ToList();
+            //NeuralConstruction.SampleInput(bow.GetVectorsList()[14], NeuralNetwork);
+            //NeuralConstruction.SampleInput(bow.GetVectorsList()[23], NeuralNetwork);
+            //NeuralConstruction.SampleInput(bow.GetVectorsList()[34], NeuralNetwork);
+
+          //  List<int> NNResultsIds = new List<int>();
+
+            foreach (myVector testvector in test.GetTestVectors())
+            {
+                int id =NeuralConstruction.SampleInput(testvector, NeuralNetwork);
+             //   NNResultsIds.Add(id);
+            }
+
         }
 
         private void Wczytaj_Sieć(object sender, RoutedEventArgs e)

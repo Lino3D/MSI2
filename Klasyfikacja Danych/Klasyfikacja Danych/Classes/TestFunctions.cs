@@ -32,13 +32,23 @@ namespace Klasyfikacja_Danych.Classes
             // List<DataClass> TrainingSet = new List<DataClass>();
             List<myVector> TestSet = new List<myVector>();
 
+            int minCount = int.MaxValue;
+
+            foreach(DataClass C in TrainingSet)
+            {
+                if(minCount > C.GetVectors().Count)
+                    minCount = C.GetVectors().Count;
+            }
+            int nVectors = minCount / 2;
+
+
             Random r = new Random();
             List<int> indices = new List<int>();
             foreach (DataClass C in TrainingSet)
             {
                 List<myVector> vectors = C.GetVectors();
-                int random = r.Next(0, vectors.Count);
-                indices.Add(random);
+                int random = r.Next(0, vectors.Count);    
+                    indices.Add(random);
             }
             for (int i = 0; i < indices.Count; i++)
             {
@@ -51,6 +61,49 @@ namespace Klasyfikacja_Danych.Classes
 
             return T;
         }
+
+        public static TestClass CreateTest2(List<DataClass> TrainingSet)
+        {
+            // List<DataClass> TrainingSet = new List<DataClass>();
+            List<myVector> TestSet = new List<myVector>();
+
+            int minCount = int.MaxValue;
+
+            foreach (DataClass C in TrainingSet)
+            {
+                if (minCount > C.GetVectors().Count)
+                    minCount = C.GetVectors().Count;
+            }
+            int nVectors = minCount / 2;
+
+            int x = 0;
+            Random r = new Random();
+            List<int> indices = new List<int>();
+            foreach (DataClass C in TrainingSet)
+            {
+                 x = 0;
+                List<myVector> vectors = C.GetVectors();
+              
+                int counter = r.Next(0, minCount);
+                while(x< nVectors)
+                {
+                    int index = r.Next(0, vectors.Count);
+                    if (TestSet.Contains(vectors[index]) == false)
+                    {
+                        TestSet.Add(vectors[index]);
+                       
+                    }
+                    x++;
+                }
+                
+            }
+
+            TestClass T = new TestClass(TrainingSet, TestSet);
+
+            return T;
+        }
+
+
 
 
         public static void TestResults(TestClass Test)
@@ -73,9 +126,36 @@ namespace Klasyfikacja_Danych.Classes
             int Precision = (Test.GetTestVectors().Count - incorrectVectors.Count) / Test.GetTestVectors().Count;
             int Recall = (Test.GetTestVectors().Count - incorrectVectors.Count) / Test.GetTestVectors().Count;
         }
-        public static void CreateVectorTest(BagOfWords bow)
+        public static TestClass CreateVectorTest(BagOfWords bow)
         {
+            TestClass T;
+            Random r = new Random();
+            var allVectors = bow.GetVectorsList();
+            var TrainingVectors = new List<myVector>();
+            var TestVectors = new List<myVector>();
 
+            int count = allVectors.Count();
+
+            int trainingCount = (int)(0.75 * count);
+            int testCount = count - trainingCount;
+
+            while(TrainingVectors.Count < trainingCount)
+            {
+                int index = r.Next(0, count);
+                if(TrainingVectors.Contains(allVectors[index])==false)
+                TrainingVectors.Add(allVectors[index]);
+            }
+
+            foreach(myVector v in allVectors)
+            {
+                if((TrainingVectors.Contains(v))==false)
+                {
+                    TestVectors.Add(v);
+                }
+            }
+
+            T = new TestClass(TrainingVectors, TestVectors);
+                return T;
         }
 
     }

@@ -47,7 +47,7 @@ namespace Klasyfikacja_Danych
         public void InitializeNetwork()
         {
             classes = DataClass.CreateDataClasses(bow);
-            classes = kNN.CreateFullSet(classes, bow);
+            classes = TestFunctions.CreateFullSet(classes, bow);
             myVector x = bow.GetVectorsList()[0];
 
             WithoutHiddenLayerNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
@@ -91,7 +91,7 @@ namespace Klasyfikacja_Danych
             UpdateLabels();
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void WczytajPDF(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             Nullable<bool> result = dlg.ShowDialog();
@@ -126,7 +126,7 @@ namespace Klasyfikacja_Danych
             //Helper.CalculateTFIDF(bow);
             myVector x = bow.GetVectorsList()[0];
 
-            TestClass T = kNN.CreateTest(classes);
+            TestClass T = TestFunctions.CreateTest(classes);
             List<myVector> vectors = T.GetTestVectors();           
 
             List<int> kNNResultsIds = new List<int>();
@@ -170,7 +170,7 @@ namespace Klasyfikacja_Danych
             ListView2.ItemsSource = NNResults;
             ListView3.ItemsSource = WHNNResults;
 
-            kNN.TestResults(T);
+            TestFunctions.TestResults(T);
 
 
             //   int id = kNN.CalculateKNN(v, classes, 3);
@@ -197,6 +197,53 @@ namespace Klasyfikacja_Danych
             NeuralConstruction.SampleInput(bow.GetVectorsList()[14], NeuralNetwork);
             NeuralConstruction.SampleInput(bow.GetVectorsList()[23], NeuralNetwork);
             NeuralConstruction.SampleInput(bow.GetVectorsList()[34], NeuralNetwork);
+        }
+
+        private void Wczytaj_Sieć(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "XML Files (.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+                try
+                {
+                    NeuralNetwork = SerializationClass.ConDeSerializer(NeuralNetwork, fileName);
+
+                    Network randomnet = SerializationClass.ConDeSerializer(NeuralNetwork, fileName);
+                    int ddddd = 50;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+                MessageBox.Show("Failed to open File");
+        }
+
+        private void Zapisz_Sieć(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.Filter = "XML Files (.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
+           
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+                try
+                {
+                    SerializationClass.ConSerializer(NeuralNetwork, fileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+                MessageBox.Show("Failed to save File");
         }
 
 

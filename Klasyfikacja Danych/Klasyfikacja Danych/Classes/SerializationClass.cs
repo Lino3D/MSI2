@@ -30,15 +30,20 @@ namespace Klasyfikacja_Danych.Classes
                 }
             }
         }
-        public static Network ConDeSerializer<T>(this T toSerialize, string filename)
+        public static T ConDeSerializer<T>(this T deSerializeType, string filename)
         {
             DataContractSerializer dcs = new DataContractSerializer(typeof(T));
-            FileStream fs = new FileStream(filename, FileMode.Open);
-            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+            T n;
+            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            {
 
-            Network n = (Network)dcs.ReadObject(reader);
-            reader.Close();
-            fs.Close();
+                using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas()))
+                {
+                    n = (T)dcs.ReadObject(reader);
+                    reader.Close();
+                }
+                fs.Close();
+            }
             return n;
         }
 

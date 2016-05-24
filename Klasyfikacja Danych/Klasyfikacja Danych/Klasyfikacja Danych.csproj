@@ -98,6 +98,7 @@
     <Compile Include="Classes\kNN.cs" />
     <Compile Include="Classes\PDF reader.cs" />
     <Compile Include="Classes\ReadArticles.cs" />
+    <Compile Include="Classes\TestFunctions.cs" />
     <Compile Include="Classes\TestResult.cs" />
     <Compile Include="Classes\SerializationClass.cs" />
     <Compile Include="DialogResult.cs" />

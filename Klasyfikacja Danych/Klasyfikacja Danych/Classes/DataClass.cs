@@ -109,8 +109,10 @@ namespace Klasyfikacja_Danych.Classes
     }
     public class TestClass
     {
-        private List<DataClass> traininglist = new List<DataClass>();
-       private List<myVector> testlist = new List<myVector>();
+        private List<DataClass> trainingClasslist = new List<DataClass>();
+        private List<myVector> trainingVectorlist = new List<myVector>();
+        private List<myVector> testlist = new List<myVector>();
+
 
     
 
@@ -121,12 +123,17 @@ namespace Klasyfikacja_Danych.Classes
 
         public TestClass(List<DataClass> c, List<myVector> V)
         {
-            traininglist = c;
+            trainingClasslist = c;
             testlist = V;
+        }
+        public TestClass(List<myVector> TrainingVectors, List<myVector> TestVectors)
+        {
+            trainingVectorlist = TrainingVectors;
+            testlist = TestVectors;
         }
         public List<DataClass> GetTrainingClasses()
         {
-            return traininglist;
+            return trainingClasslist;
         }
         public List<myVector> GetTestVectors()
         {

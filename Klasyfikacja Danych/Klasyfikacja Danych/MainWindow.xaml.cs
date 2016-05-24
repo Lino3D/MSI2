@@ -149,7 +149,7 @@ namespace Klasyfikacja_Danych
             for (int i = 0; i < kNNResultsIds.Count; i++)
             {
                 TestResult testresult = new TestResult("kNNAlgorithm");
-                testresult.filltestData(classes, kNNResultsIds[i], vectors[i]);
+                testresult.filltestData(T.GetTrainingClasses(), kNNResultsIds[i], vectors[i]);
                 kNNResults.Add(testresult);
             }
             // Dodajemy wyniki dla sieci neuronowej

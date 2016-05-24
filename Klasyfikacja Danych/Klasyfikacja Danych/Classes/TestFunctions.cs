@@ -62,14 +62,20 @@ namespace Klasyfikacja_Danych.Classes
             return T;
         }
 
-        public static TestClass CreateTest2(List<DataClass> TrainingSet)
+        public static TestClass CreateTest2(List<DataClass> classes)
         {
-            // List<DataClass> TrainingSet = new List<DataClass>();
+            List<DataClass> TrainingSet = new List<DataClass>();
             List<myVector> TestSet = new List<myVector>();
+
+            foreach (DataClass c in classes)
+            {
+                TrainingSet.Add(c);
+            }
+
 
             int minCount = int.MaxValue;
 
-            foreach (DataClass C in TrainingSet)
+            foreach (DataClass C in classes)
             {
                 if (minCount > C.GetVectors().Count)
                     minCount = C.GetVectors().Count;
@@ -79,8 +85,9 @@ namespace Klasyfikacja_Danych.Classes
             int x = 0;
             Random r = new Random();
             List<int> indices = new List<int>();
-            foreach (DataClass C in TrainingSet)
+            foreach (DataClass C in classes)
             {
+                int i = classes.IndexOf(C);
                  x = 0;
                 List<myVector> vectors = C.GetVectors();
               
@@ -91,7 +98,7 @@ namespace Klasyfikacja_Danych.Classes
                     if (TestSet.Contains(vectors[index]) == false)
                     {
                         TestSet.Add(vectors[index]);
-                       
+                        TrainingSet[i].GetVectors().RemoveAt(index);
                     }
                     x++;
                 }

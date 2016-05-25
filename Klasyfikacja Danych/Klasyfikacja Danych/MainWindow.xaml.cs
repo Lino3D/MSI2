@@ -126,6 +126,14 @@ namespace Klasyfikacja_Danych
             //Helper.CalculateTFIDF(bow);
             myVector x = bow.GetVectorsList()[0];
 
+            TestClass test = TestFunctions.CreateVectorTest(bow);
+            foreach (myVector testvector in test.GetTestVectors())
+            {
+                int id = NeuralConstruction.SampleInput(testvector, NeuralNetwork);
+                var output = NeuralNetwork.getNetwork().Where(o => o.type == 2).ToList();
+                //   NNResultsIds.Add(id);
+            }
+
             TestClass T = TestFunctions.CreateTest2(classes);
             List<myVector> vectors = T.GetTestVectors();           
 
@@ -193,7 +201,7 @@ namespace Klasyfikacja_Danych
 
             //   BackPropagation.UczenieSieci(200, TrainingSet, NeuralNetwork, classes);
             //  BackPropagation.UczenieSieci(500, bow.GetVectorsList(), NeuralNetwork, classes,TrainingSet);
-            BackPropagation.UczenieSieci(500, bow.GetVectorsList(), NeuralNetwork, classes, test.GetTrainingtVectors());
+            BackPropagation.UczenieSieci(500, bow.GetVectorsList(), NeuralNetwork, classes, test.GetTestVectors());
             Console.Beep();
 
             //int a = NeuralConstruction.SampleInput(bow.GetVectorsList()[1], NeuralNetwork);
@@ -207,6 +215,7 @@ namespace Klasyfikacja_Danych
             foreach (myVector testvector in test.GetTestVectors())
             {
                 int id =NeuralConstruction.SampleInput(testvector, NeuralNetwork);
+                var output = NeuralNetwork.getNetwork().Where(o => o.type == 2).ToList();
              //   NNResultsIds.Add(id);
             }
 

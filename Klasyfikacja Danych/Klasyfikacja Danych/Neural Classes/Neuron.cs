@@ -27,6 +27,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
         private float input;
         [DataMember]
         private string KatName;
+        [DataMember]
         private int Type;  // 0 -> input, 1-> hidden, 2-> output
 
 

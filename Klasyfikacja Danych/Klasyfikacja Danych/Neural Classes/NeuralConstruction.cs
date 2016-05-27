@@ -210,7 +210,7 @@ namespace Klasyfikacja_Danych.Neural_Classes
             SigmoidFunction(OutputLayer, NormalizationCoef);
 
             // Liczenie wyniku
-            foundID = -OutputLayer.OrderBy(o => o.Input).FirstOrDefault().ID - 1;
+            foundID = -OutputLayer.OrderBy(o => o.Input).Reverse().FirstOrDefault().ID - 1;
             //     correctID = -CorrectId(sampleInput, OutputLayer) - 1;
             //
             //    // Dopasowywanie wag

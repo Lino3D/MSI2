@@ -40,6 +40,10 @@ namespace Klasyfikacja_Danych
             InitializeComponent();
             DataContext = this;
             Refresh();
+
+            // Cos z tym trzeba zrobic, nie podoba mi sie to
+            Helper.CalculateTFIDF(bow);
+   
             InitializeNetwork();
             Console.Beep();
         }
@@ -88,6 +92,7 @@ namespace Klasyfikacja_Danych
         {
             ra.ReadArticlesFromProgramFile();
             LoadBagOfWords();
+            Helper.CalculateTFIDF(bow);
             UpdateLabels();
         }
 
@@ -123,7 +128,7 @@ namespace Klasyfikacja_Danych
 
         private void _Start_Copy_Click(object sender, RoutedEventArgs e)
         {
-            //Helper.CalculateTFIDF(bow);
+         //   Helper.CalculateTFIDF(bow);
             myVector x = bow.GetVectorsList()[0];
 
             TestClass test = TestFunctions.CreateVectorTest(bow);

@@ -73,7 +73,7 @@ namespace Klasyfikacja_Danych.Classes
             List<string> WordstoRemove = new List<string>();
             for(int i=0; i<IndexesToRemove.Count;i++)
             {
-               WordstoRemove.Add( bow.GetWordsList().ElementAt(i));
+               WordstoRemove.Add( bow.GetWordsList().ElementAt(IndexesToRemove.ElementAt(i)));
             }
             bow.RemoveWords(WordstoRemove);
         }

@@ -74,12 +74,19 @@ namespace Klasyfikacja_Danych.Classes
             if (ToRemove.Count() != 0)
             {
                 List<int> RemoveIndices = new List<int>();
-                foreach (var RemovedWord in ToRemove)
+
+                for (int i = ToRemove.Count - 1; i >= 0;i-- )
                 {
-                    index = Words.IndexOf(RemovedWord);
+                    index = Words.IndexOf(ToRemove[i]);
                     Words.RemoveAt(index);
                     RemoveIndices.Add(index);
                 }
+                    //foreach (var RemovedWord in ToRemove)
+                    //{
+                    //    index = Words.IndexOf(RemovedWord);
+                    //    Words.RemoveAt(index);
+                    //    RemoveIndices.Add(index);
+                    //}
                 AdjustVectorLists(RemoveIndices.ToArray());
                 RemoveIndices = null;
             }

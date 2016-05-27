@@ -39,7 +39,7 @@ namespace Klasyfikacja_Danych.Classes
                     foreach (var vector in vectors)
                     {
                         List<double> V = vector.GetVector();           
-                        if (V[index] > 0.6)
+                        if (V[index] > 0)
                             count++;
 
                     }
@@ -50,12 +50,12 @@ namespace Klasyfikacja_Danych.Classes
                 WholeTFIDF.Add(TFIDF); //adding whole list to list of lists.
                 x++;
             }
-
+           double parameter = 5.32;
             List<int> IndexesToRemove = new List<int>();
 
                 for(int j=0; j<WholeTFIDF[0].Count;j++)
                 {
-                    if(WholeTFIDF[0][j]==0)
+                    if(WholeTFIDF[0][j] <= parameter) //zmienić tu
                     {
                     IndexesToRemove.Add(j);
                     }
@@ -64,7 +64,7 @@ namespace Klasyfikacja_Danych.Classes
             {
            for(int i=0; i<IndexesToRemove.Count;i++)
                 {
-                    if(wordIndexes[IndexesToRemove[i]]!=0)
+                    if(wordIndexes[IndexesToRemove[i]]>= parameter) //zmienić tu
                     {
                         IndexesToRemove.RemoveAt(i);
                     }

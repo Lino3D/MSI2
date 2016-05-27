@@ -171,7 +171,10 @@ namespace Klasyfikacja_Danych.Classes
             }
             Name = name;
         }
-        
+
+        public myVector()
+        {
+        }
 
         public List<double> GetVector()
         {

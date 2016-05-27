@@ -45,26 +45,26 @@ namespace Klasyfikacja_Danych
         //    Helper.CalculateTFIDF(bow);
    
             InitializeNetwork();
-            Console.Beep();
+        //    Console.Beep();
         }
 
         public void InitializeNetwork()
         {
             classes = DataClass.CreateDataClasses(bow);
             classes = TestFunctions.CreateFullSet(classes, bow);
-            myVector x = bow.GetVectorsList()[0];
+            myVector x = new myVector();
+          //  if (bow.GetVectorsList().Count > 0)
+            {
+                x = bow.GetVectorsList()[0];
 
-            WithoutHiddenLayerNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
-            NeuralConstruction.SampleWeight(WithoutHiddenLayerNetwork, bow.GetVectorsList(), classes);
+                WithoutHiddenLayerNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
+                NeuralConstruction.SampleWeight(WithoutHiddenLayerNetwork, bow.GetVectorsList(), classes);
 
-            NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 20);
+                NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 20);
+            }
 
 
-          //  SerializationClass.ConSerializer(NeuralNetwork, "hello.xml");
-         //   Network tryNetwork = SerializationClass.ConDeSerializer(NeuralNetwork,"hello.xml");
-
-        //    int adafdafa = 50;
-
+     
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -184,11 +184,6 @@ namespace Klasyfikacja_Danych
             ListView3.ItemsSource = WHNNResults;
 
             TestFunctions.TestResults(T);
-
-
-            //   int id = kNN.CalculateKNN(v, classes, 3);
-            // String classname = classes[id].GetName();
-            // MessageBox.Show(classname);
         }
 
         private void UczenieSieci_Click(object sender, RoutedEventArgs e)
@@ -255,63 +250,6 @@ namespace Klasyfikacja_Danych
         }
 
 
-        //private void _Start_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    //Helper.CalculateTFIDF(bow);
-
-        //    classes = DataClass.CreateDataClasses(bow);
-        //    classes = kNN.CreateFullSet(classes, bow);
-
-        //    myVector x = bow.GetVectorsList()[0];
-
-
-        //    TestClass T = kNN.CreateTest(classes);
-
-        //    List<myVector> vectors = T.GetTestVectors();
-
-        //    NeuralNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
-
-        //    NeuralConstruction.SampleWeight(NeuralNetwork, bow.GetVectorsList(), classes);
-
-        //    List<int> kNNResultsIds = new List<int>();
-        //    List<int> NNResultsIds = new List<int>();
-
-        //    // Liczymy
-        //    foreach (myVector V in vectors)
-        //    {
-        //        int id = 0;
-        //        id = kNN.CalculateKNN(V, classes, 3);
-        //        kNNResultsIds.Add(id);
-        //        id = NeuralConstruction.OldSampleInput(V, NeuralNetwork);
-        //        NNResultsIds.Add(id);
-        //    }
-        //    //  String classname = classes[id].GetName();
-
-
-        //    // Dodajemy wyniki dla KNN
-        //    for (int i = 0; i < kNNResultsIds.Count; i++)
-        //    {
-        //        TestResult testresult = new TestResult("kNNAlgorithm");
-        //        testresult.filltestData(classes, kNNResultsIds[i], vectors[i]);
-        //        kNNResults.Add(testresult);
-        //    }
-        //    // Dodajemy wyniki dla sieci neuronowej
-        //    for (int i = 0; i < NNResultsIds.Count; i++)
-        //    {
-        //        TestResult testresult = new TestResult("kNNAlgorithm");
-        //        testresult.filltestData(classes, NNResultsIds[i], vectors[i]);
-        //        NNResults.Add(testresult);
-        //    }
-        //    ListView1.ItemsSource = kNNResults;
-        //    ListView2.ItemsSource = NNResults;
-        //    kNN.TestResults(T);
-
-
-        //    //   int id = kNN.CalculateKNN(v, classes, 3);
-        //    // String classname = classes[id].GetName();
-        //    // MessageBox.Show(classname);
-
-        //}
+ 
     }
 }

@@ -73,9 +73,9 @@
                 <Grid>
                     <WrapPanel HorizontalAlignment="Left" Height="85" Margin="10,2.55,0,0" VerticalAlignment="Top" Width="209" Grid.Row="0">
                         <Label Content="Ilość słów w Bag of Words:" Height="26" VerticalAlignment="Top" Width="159"/>
-                        <Label x:Name="LabelBoW" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="37"/>
+                        <Label x:Name="LabelBoW" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48"/>
                         <Label Content="Ilość słów w artykułach:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="159"/>
-                        <Label x:Name="LabelNumberOfWords" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.324,-0.56" Width="35"/>
+                        <Label x:Name="LabelNumberOfWords" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-0.324,-0.56" Width="46"/>
                         <Label Content="Ilość wczytanych artykułów:" Width="159"/>
                         <Label x:Name="NumberOfReadArticlesLabel" Content="" Width="36"/>
                     </WrapPanel>

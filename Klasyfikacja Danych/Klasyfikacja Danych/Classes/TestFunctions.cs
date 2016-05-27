@@ -143,7 +143,7 @@ namespace Klasyfikacja_Danych.Classes
 
             int count = allVectors.Count();
 
-            int trainingCount = (int)(0.75 * count);
+            int trainingCount = (int)(0.9 * count);
             int testCount = count - trainingCount;
 
             while(TrainingVectors.Count < trainingCount)

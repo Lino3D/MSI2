@@ -10,7 +10,7 @@ namespace Klasyfikacja_Danych.Classes
     public static class BackPropagation
     {
 
-        public static void UczenieSieci(int k, List<myVector> V, Network N, List<DataClass> classes, List<myVector> DontUse)
+        public static void UczenieSieci(int k, List<myVector> V, Network N, List<DataClass> classes)
         {
             float Eta = 0.1f;
             List<float> ErrorLst = new List<float>();
@@ -21,67 +21,56 @@ namespace Klasyfikacja_Danych.Classes
             var middle = N.getNetwork().Where(o => o.type == 1).ToList();
             var output = N.getNetwork().Where(o => o.type == 2).ToList();
             int count = k;
-        //    foreach (var vector in V)
+
+            while (k > 0)
             {
-                while (k > 0)
+                foreach (var vector in V)
                 {
-                    //  var vector = V[0];
-                      foreach (var vector in V)
+                    NeuralConstruction.SampleInput(vector, N);
+                    int id = classes.Where(o => o.GetVectors().Contains(vector)).First().GetID();
+
+                    // Teaching the Output Part basing on the Hidden Part
+                    var HiddenLayer = N.getNetwork().Where(o => o.type == 1);
+                    foreach (var neuron in HiddenLayer)
                     {
-                        if (DontUse.Contains(vector))
-                            continue;
-                        NeuralConstruction.SampleInput(vector, N);
-                        int id = classes.Where(o => o.GetVectors().Contains(vector)).First().GetID();
-
-                        //        ErrorTotal = CalculateError(N, vector, classes);
-
-                        // Teaching the Output Part basing on the Hidden Part
-                        var HiddenLayer = N.getNetwork().Where(o => o.type == 1);
-                        foreach (var neuron in HiddenLayer)
+                        var connections = neuron.GetConnections();
+                        for (int i = 0; i < connections.Count; i++)
                         {
-                            var connections = neuron.GetConnections();
-                            for (int i = 0; i < connections.Count; i++)
-                            {
-                                target = (id == i) ? 1 : 0;
-                                delta = (connections[i].To.Input - target) * (connections[i].To.Input * (1 - connections[i].To.Input)) * neuron.Input;
-                                connections[i].NewWeight = connections[i].Weight - (Eta * delta);
-                            }
+                            target = (id == i) ? 1 : 0;
+                            delta = (connections[i].To.Input - target) * (connections[i].To.Input * (1 - connections[i].To.Input)) * neuron.Input;
+                            connections[i].NewWeight = connections[i].Weight - (Eta * delta);
                         }
-
-                        // Teaching the Hidden Part basing on the Input Part
-
-                        // Calculating the coeficient - I made it compute in here because it is constatnt for all outputs
-
-
-                        // And the second part of the computations
-                        var InputLayer = N.getNetwork().Where(o => o.type == 0);
-
-                        foreach (var neuron in InputLayer)
-                        {
-                            var connections = neuron.GetConnections();
-
-                            for (int i = 0; i < connections.Count; i++)
-                            {
-                                var ConTo = connections[i].To.GetConnections();
-                                coef = 0;
-                                for (int j = 0; j < ConTo.Count; j++)
-                                {
-                                    target = (id == j) ? 1 : 0;
-                                    coef += ConTo[j].Weight * (ConTo[j].To.Input * (1 - ConTo[j].To.Input)) * (ConTo[j].To.Input - target);
-                                }
-
-                                delta = coef * (connections[i].To.Input * (1 - connections[i].To.Input)) * neuron.Input;
-
-                                connections[i].NewWeight = connections[i].Weight - (Eta * delta);
-                            }
-                        }
-
-                        // Finalisation
-                        AssingNewWeights(N);
                     }
-                    k--;
+                    // Teaching the Hidden Part basing on the Input Part
+
+                    // Calculating the coeficient - I made it compute in here because it is constatnt for all outputs
+                    // And the second part of the computations
+                    var InputLayer = N.getNetwork().Where(o => o.type == 0);
+
+                    foreach (var neuron in InputLayer)
+                    {
+                        var connections = neuron.GetConnections();
+
+                        for (int i = 0; i < connections.Count; i++)
+                        {
+                            var ConTo = connections[i].To.GetConnections();
+                            coef = 0;
+                            for (int j = 0; j < ConTo.Count; j++)
+                            {
+                                target = (id == j) ? 1 : 0;
+                                coef += ConTo[j].Weight * (ConTo[j].To.Input * (1 - ConTo[j].To.Input)) * (ConTo[j].To.Input - target);
+                            }
+
+                            delta = coef * (connections[i].To.Input * (1 - connections[i].To.Input)) * neuron.Input;
+
+                            connections[i].NewWeight = connections[i].Weight - (Eta * delta);
+                        }
+                    }
+
+                    // Finalisation
+                    AssingNewWeights(N);
                 }
-                k = count;
+                k--;
             }
         }
 

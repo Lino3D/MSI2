@@ -75,7 +75,7 @@ namespace Klasyfikacja_Danych.Classes
             foreach(myVector v in BoW.GetVectorsList())
             {
                 string Classname = v.GetVectorName();
-                Classname = Classname.Remove(Classname.Length - 2);
+                Classname = Classname.Split('_').First();
                 if (!ClassNames.Contains(Classname))
                     ClassNames.Add(Classname);
             }

@@ -39,7 +39,7 @@ namespace Klasyfikacja_Danych.Classes
                     foreach (var vector in vectors)
                     {
                         List<double> V = vector.GetVector();           
-                        if (V[index] > 0.3)
+                        if (V[index] > 0.6)
                             count++;
 
                     }

@@ -60,10 +60,10 @@ namespace Klasyfikacja_Danych
             NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 20);
 
 
-            SerializationClass.ConSerializer(NeuralNetwork, "hello.xml");
-            Network tryNetwork = SerializationClass.ConDeSerializer(NeuralNetwork,"hello.xml");
+          //  SerializationClass.ConSerializer(NeuralNetwork, "hello.xml");
+         //   Network tryNetwork = SerializationClass.ConDeSerializer(NeuralNetwork,"hello.xml");
 
-            int adafdafa = 50;
+        //    int adafdafa = 50;
 
         }
 
@@ -92,7 +92,7 @@ namespace Klasyfikacja_Danych
         {
             ra.ReadArticlesFromProgramFile();
             LoadBagOfWords();
-        //    Helper.CalculateTFIDF(bow);
+            Helper.CalculateTFIDF(bow);
             UpdateLabels();
         }
 

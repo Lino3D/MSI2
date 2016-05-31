@@ -35,17 +35,16 @@ namespace Klasyfikacja_Danych
         List<TestResult> kNNResults = new List<TestResult>();
         List<TestResult> NNResults = new List<TestResult>();
         List<TestResult> WHNNResults = new List<TestResult>();
+
+        TestClass test;
+       
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
             Refresh();
-
-            // Cos z tym trzeba zrobic, nie podoba mi sie to
-        //    Helper.CalculateTFIDF(bow);
-   
             InitializeNetwork();
-        //    Console.Beep();
+            test = TestFunctions.CreateVectorTest(bow);
         }
 
         public void InitializeNetwork()
@@ -130,18 +129,20 @@ namespace Klasyfikacja_Danych
         {
          //   Helper.CalculateTFIDF(bow);
             myVector x = bow.GetVectorsList()[0];
+          //  test = TestFunctions.CreateVectorTest(bow);
+            //TestClass test = TestFunctions.CreateVectorTest(bow);
+            //foreach (myVector testvector in test.GetTestVectors())
+            //{
+            //    int id = NeuralConstruction.SampleInput(testvector, NeuralNetwork);
+            //    var output = NeuralNetwork.getNetwork().Where(o => o.type == 2).ToList();
+            //    //   NNResultsIds.Add(id);
+            //}
 
-            TestClass test = TestFunctions.CreateVectorTest(bow);
-            foreach (myVector testvector in test.GetTestVectors())
-            {
-                int id = NeuralConstruction.SampleInput(testvector, NeuralNetwork);
-                var output = NeuralNetwork.getNetwork().Where(o => o.type == 2).ToList();
-                //   NNResultsIds.Add(id);
-            }
 
             TestClass T = TestFunctions.CreateTest2(classes);
-            List<myVector> vectors = T.GetTestVectors();           
-
+            //  List<myVector> vectors = T.GetTestVectors();           
+            List<myVector> vectors = test.GetTestVectors();
+           
             List<int> kNNResultsIds = new List<int>();
             List<int> NNResultsIds = new List<int>();
             List<int> WHNNResultsIds = new List<int>();
@@ -183,15 +184,15 @@ namespace Klasyfikacja_Danych
             ListView2.ItemsSource = NNResults;
             ListView3.ItemsSource = WHNNResults;
 
-            TestFunctions.TestResults(T);
+          //  TestFunctions.TestResults(T);
         }
 
         private void UczenieSieci_Click(object sender, RoutedEventArgs e)
         {
-          TestClass test=  TestFunctions.CreateVectorTest(bow);
+           
             myVector x = bow.GetVectorsList()[0];
 
-            BackPropagation.UczenieSieci(500, test.GetTrainingtVectors(), NeuralNetwork, classes);
+            BackPropagation.UczenieSieci(350, test.GetTrainingtVectors(), NeuralNetwork, classes);
             Console.Beep();
 
             foreach (myVector testvector in test.GetTestVectors())
@@ -216,7 +217,6 @@ namespace Klasyfikacja_Danych
                     NeuralNetwork = SerializationClass.ConDeSerializer(NeuralNetwork, fileName);
 
                     Network randomnet = SerializationClass.ConDeSerializer(NeuralNetwork, fileName);
-                    int ddddd = 50;
                 }
                 catch (Exception ex)
                 {
@@ -249,7 +249,94 @@ namespace Klasyfikacja_Danych
                 MessageBox.Show("Failed to save File");
         }
 
+        private void SerializeTest_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.Filter = "XML Files (.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
 
- 
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+                try
+                {
+                    SerializationClass.ConSerializer(test, fileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+                MessageBox.Show("Failed to save File");
+        }
+
+        private void DeSerializeTest_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "XML Files (.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+                try
+                {
+                    test = SerializationClass.ConDeSerializer(test, fileName);
+
+                   }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+                MessageBox.Show("Failed to open File");
+        }
+
+        private void DeSerializeBoW_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "XML Files (.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+                try
+                {
+                    bow = SerializationClass.ConDeSerializer(bow, fileName);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+                MessageBox.Show("Failed to open File");
+        }
+
+        private void SerializeBoW_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.Filter = "XML Files (.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string fileName = dlg.FileName;
+                try
+                {
+                    SerializationClass.ConSerializer(bow, fileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+                MessageBox.Show("Failed to save File");
+        }
     }
 }

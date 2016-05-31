@@ -43,11 +43,15 @@ namespace Klasyfikacja_Danych.Classes
         {
       
                 foundclass = classes[id].GetName();
-            
+
+       
             correctclass = v.GetVectorName();
             correctclass = correctclass.Remove(correctclass.Length - 2);
 
-            if(correctclass==foundclass)
+            if (correctclass.IndexOf('_') != -1)
+               correctclass = correctclass.Remove(correctclass.IndexOf('_'), 1);
+
+            if (correctclass==foundclass)
             {
                 result = true;
             }

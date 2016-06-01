@@ -59,7 +59,7 @@ namespace Klasyfikacja_Danych
                 WithoutHiddenLayerNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
                 NeuralConstruction.SampleWeight(WithoutHiddenLayerNetwork, bow.GetVectorsList(), classes);
 
-                NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 20);
+                NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 10);
             }
 
 
@@ -192,7 +192,7 @@ namespace Klasyfikacja_Danych
            
             myVector x = bow.GetVectorsList()[0];
 
-            BackPropagation.UczenieSieci(350, test.GetTrainingtVectors(), NeuralNetwork, classes);
+            BackPropagation.UczenieSieci(100, test.GetTrainingtVectors(), NeuralNetwork, classes);
             Console.Beep();
 
             foreach (myVector testvector in test.GetTestVectors())

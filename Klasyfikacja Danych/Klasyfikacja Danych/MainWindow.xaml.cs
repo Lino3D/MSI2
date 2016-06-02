@@ -52,18 +52,12 @@ namespace Klasyfikacja_Danych
             classes = DataClass.CreateDataClasses(bow);
             classes = TestFunctions.CreateFullSet(classes, bow);
             myVector x = new myVector();
-          //  if (bow.GetVectorsList().Count > 0)
             {
                 x = bow.GetVectorsList()[0];
-
                 WithoutHiddenLayerNetwork = NeuralConstruction.CreateDefaultNetwork(x.GetVector().Count, classes);
                 NeuralConstruction.SampleWeight(WithoutHiddenLayerNetwork, bow.GetVectorsList(), classes);
-
-                NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 10);
+                NeuralNetwork = NeuralConstruction.CreateNewDefaultNetwork(x.GetVector().Count, classes, 5);
             }
-
-
-     
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -127,22 +121,9 @@ namespace Klasyfikacja_Danych
 
         private void _Start_Copy_Click(object sender, RoutedEventArgs e)
         {
-         //   Helper.CalculateTFIDF(bow);
             myVector x = bow.GetVectorsList()[0];
-          //  test = TestFunctions.CreateVectorTest(bow);
-            //TestClass test = TestFunctions.CreateVectorTest(bow);
-            //foreach (myVector testvector in test.GetTestVectors())
-            //{
-            //    int id = NeuralConstruction.SampleInput(testvector, NeuralNetwork);
-            //    var output = NeuralNetwork.getNetwork().Where(o => o.type == 2).ToList();
-            //    //   NNResultsIds.Add(id);
-            //}
-
-
-            TestClass T = TestFunctions.CreateTest2(classes);
-            //  List<myVector> vectors = T.GetTestVectors();           
+            TestClass T = TestFunctions.CreateTest2(classes);  
             List<myVector> vectors = test.GetTestVectors();
-           
             List<int> kNNResultsIds = new List<int>();
             List<int> NNResultsIds = new List<int>();
             List<int> WHNNResultsIds = new List<int>();
@@ -184,7 +165,11 @@ namespace Klasyfikacja_Danych
             ListView2.ItemsSource = NNResults;
             ListView3.ItemsSource = WHNNResults;
 
-          //  TestFunctions.TestResults(T);
+            kNNResults = new List<TestResult>();
+            NNResults = new List<TestResult>();
+            WHNNResults = new List<TestResult>();
+            test = new TestClass();
+            test = TestFunctions.CreateVectorTest(bow);
         }
 
         private void UczenieSieci_Click(object sender, RoutedEventArgs e)
@@ -192,7 +177,7 @@ namespace Klasyfikacja_Danych
            
             myVector x = bow.GetVectorsList()[0];
 
-            BackPropagation.UczenieSieci(100, test.GetTrainingtVectors(), NeuralNetwork, classes);
+            BackPropagation.UczenieSieci(200, test.GetTrainingtVectors(), NeuralNetwork, classes);
             Console.Beep();
 
             foreach (myVector testvector in test.GetTestVectors())
@@ -200,6 +185,7 @@ namespace Klasyfikacja_Danych
                 int id =NeuralConstruction.SampleInput(testvector, NeuralNetwork);
                 var output = NeuralNetwork.getNetwork().Where(o => o.type == 2).ToList();
             }
+            UczenieSieci.IsEnabled = false;
 
         }
 
@@ -215,8 +201,8 @@ namespace Klasyfikacja_Danych
                 try
                 {
                     NeuralNetwork = SerializationClass.ConDeSerializer(NeuralNetwork, fileName);
-
                     Network randomnet = SerializationClass.ConDeSerializer(NeuralNetwork, fileName);
+                    UczenieSieci.IsEnabled = false;
                 }
                 catch (Exception ex)
                 {
@@ -249,50 +235,7 @@ namespace Klasyfikacja_Danych
                 MessageBox.Show("Failed to save File");
         }
 
-        private void SerializeTest_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.Filter = "XML Files (.xml)|*.xml";
-            Nullable<bool> result = dlg.ShowDialog();
-
-            if (result == true)
-            {
-                string fileName = dlg.FileName;
-                try
-                {
-                    SerializationClass.ConSerializer(test, fileName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            else
-                MessageBox.Show("Failed to save File");
-        }
-
-        private void DeSerializeTest_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.Filter = "XML Files (.xml)|*.xml";
-            Nullable<bool> result = dlg.ShowDialog();
-
-            if (result == true)
-            {
-                string fileName = dlg.FileName;
-                try
-                {
-                    test = SerializationClass.ConDeSerializer(test, fileName);
-
-                   }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            else
-                MessageBox.Show("Failed to open File");
-        }
+        
 
         private void DeSerializeBoW_Click(object sender, RoutedEventArgs e)
         {
@@ -337,6 +280,13 @@ namespace Klasyfikacja_Danych
             }
             else
                 MessageBox.Show("Failed to save File");
+        }
+
+        private void ResetujSieć_Click(object sender, RoutedEventArgs e)
+        {
+            NeuralNetwork = new Network();
+            InitializeNetwork();
+            UczenieSieci.IsEnabled = true;
         }
     }
 }

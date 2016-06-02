@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace Klasyfikacja_Danych.Classes
 {
+
+
+
+
+
+
     public class TestResult
     {
         private string algorithmname;
         private string correctclass;
         private string foundclass;
         private bool result = false;
+
+   
+
 
         public string AlgorithmName
         {
@@ -41,10 +50,8 @@ namespace Klasyfikacja_Danych.Classes
         }
         public TestResult filltestData(List<DataClass> classes, int id, myVector v)
         {
-      
-                foundclass = classes[id].GetName();
+            foundclass = classes[id].GetName();
 
-       
             correctclass = v.GetVectorName();
             correctclass = correctclass.Remove(correctclass.Length - 2);
 
@@ -55,6 +62,7 @@ namespace Klasyfikacja_Danych.Classes
             {
                 result = true;
             }
+   
             return this;
         }
 
